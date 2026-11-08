@@ -543,7 +543,7 @@ function validate(p){
 const $ = id => document.getElementById(id);
 let puzzle=null, cells=[], sel={r:-1,c:-1}, curDir='across', activeWord=null;
 let solved=new Set(), hints=0, secs=0, score=0, won=false, timerId=null;
-let soundOn=true, totalStars=0, wins=0, recog=null, listening=false, synths=null;
+let soundOn=true, totalStars=0, wins=0, recog=null, listening=false, synths=null, winT=null;
 
 const store = {
   get(k,d){ try{ const v=localStorage.getItem('xw2_'+k); return v===null?d:v; }catch(e){ return d; } },
@@ -596,6 +596,7 @@ function fitGrid(){
 function newGame(){
   const themeKey=$('theme-select').value, diffKey=$('diff-select').value;
   store.set('theme',themeKey); store.set('diff',diffKey);
+  clearTimeout(winT);
   puzzle=buildPuzzle(themeKey,diffKey);
   puzzle.diff=diffKey;
   cells=Array.from({length:puzzle.rows},()=>Array(puzzle.cols).fill(null));
@@ -769,7 +770,9 @@ function checkWin(){
   totalStars+=stars; wins++; store.set('stars',totalStars); store.set('wins',wins);
   $('total-stars').textContent=totalStars;
   $('win-time').textContent=fmt(secs); $('win-stars').textContent='⭐'.repeat(stars); $('win-score').textContent=score;
-  setTimeout(()=>{
+  clearTimeout(winT);
+  winT=setTimeout(()=>{
+    if(!won) return;
     $('win-modal').classList.add('open');
     if(typeof confetti==='function'){ confetti({particleCount:90,spread:70,origin:{y:.6}}); setTimeout(()=>confetti({particleCount:50,angle:60,spread:60,origin:{x:0,y:.7}}),250); setTimeout(()=>confetti({particleCount:50,angle:120,spread:60,origin:{x:1,y:.7}}),250); }
   },700);
@@ -888,8 +891,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   buildKeyboard(); initVoice();
 
   $('btn-new').addEventListener('click',()=>{initAudio();newGame();});
-  $('theme-select').addEventListener('change',newGame);
-  $('diff-select').addEventListener('change',newGame);
+  $('theme-select').addEventListener('change',e=>{e.target.blur();newGame();});
+  $('diff-select').addEventListener('change',e=>{e.target.blur();newGame();});
   $('btn-again').addEventListener('click',newGame);
   $('btn-sound').addEventListener('click',()=>{ soundOn=!soundOn; store.set('sound',soundOn); $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'; initAudio(); });
   $('btn-kbd').addEventListener('click',()=>$('virtual-keyboard').classList.toggle('show'));
