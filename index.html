@@ -56,7 +56,7 @@ body::before{ /* margem vermelha de caderno */
 .brand p{margin:3px 0 0;font:11px 'Special Elite',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-.btn,.sel{
+.btn,.pick{
   font:700 12px 'Special Elite',monospace;color:var(--ink);
   background:var(--paper-3);border:1.5px solid var(--ink-soft);border-radius:4px;
   box-shadow:2px 2px 0 #3a3028;padding:8px 11px;cursor:pointer;
@@ -67,7 +67,7 @@ body::before{ /* margem vermelha de caderno */
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn.primary{background:#ffd98a;border-color:#7a4a0b}
 .btn.primary:hover{background:#ffcb5c}
-.sel{padding:8px 8px;outline:none}
+.pick{padding:8px 8px;outline:none}
 
 /* ---------- Layout ---------- */
 .layout{
@@ -230,7 +230,7 @@ body::before{ /* margem vermelha de caderno */
       </div>
     </div>
     <div class="controls">
-      <select id="theme-select" class="sel" aria-label="Tema">
+      <select id="theme-select" class="pick" aria-label="Tema">
         <option value="all">🎲 Todos os temas</option>
         <option value="cinema">🎬 Cinema</option>
         <option value="geografia">🌍 Geografia</option>
@@ -240,7 +240,7 @@ body::before{ /* margem vermelha de caderno */
         <option value="animal">🐾 Reino Animal</option>
         <option value="objetos">🏠 Dia a Dia</option>
       </select>
-      <select id="diff-select" class="sel" aria-label="Dificuldade">
+      <select id="diff-select" class="pick" aria-label="Dificuldade">
         <option value="facil">🌱 Fácil</option>
         <option value="medio" selected>⚡ Médio</option>
         <option value="dificil">🔥 Difícil</option>
