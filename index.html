@@ -114,6 +114,8 @@ body{
   text-shadow:0 0 1px rgba(58,61,69,.7),.6px .4px 0 rgba(58,61,69,.35);transition:background .12s;
 }
 .cell.block{background:var(--ink);cursor:default;text-shadow:none}
+.cell.letter:focus-visible{outline:3px solid var(--red);outline-offset:-3px}
+.btn:focus-visible,.pick:focus-visible,.key:focus-visible{outline:3px solid var(--red);outline-offset:2px}
 .cell.letter:hover{background:#f3e9c0}
 .cell .num{position:absolute;top:1px;left:2px;font:700 calc(var(--cs)*.27)/1 'Courier Prime',monospace;color:var(--ink);pointer-events:none;text-shadow:none}
 .cell .ch{transform:translateY(-6%)}
@@ -333,13 +335,13 @@ const THEMES = {
     'ABOLICAO|Fim da escravidão no Brasil, em 1888','MURALHA|Grande ___ da China',
     'EGITO|Terra dos faraós e das pirâmides','MUMIA|Corpo embalsamado do Egito antigo','ATENAS|Berço da democracia grega','TROIA|Cidade do famoso cavalo de madeira',
     'ESPARTA|Cidade grega de guerreiros famosos','GUERRA|Conflito armado entre nações','COLONIA|Território dominado por outro país',
-    'ESCRAVO|Pessoa forçada a trabalhar sem liberdade','DITADURA|Regime em que o poder fica concentrado num só','IMPERADOR|Chefe supremo de um império','CRUZADAS|Expedições medievais cristãs à Terra Santa'] },
+    'ESCRAVO|Pessoa forçada a trabalhar sem liberdade','DITADURA|Regime em que o poder se concentra em um só governante','IMPERADOR|Chefe supremo de um império','CRUZADAS|Expedições medievais cristãs à Terra Santa'] },
   culinaria: { label: 'Culinária', words: [
     'PIZZA|Prato italiano redondo com queijo e molho','PAO|Alimento de farinha, água e fermento','AZEITE|Óleo extraído da azeitona',
     'QUEIJO|Derivado do leite, como mussarela e minas','FEIJAO|Par perfeito do arroz no prato brasileiro','ARROZ|Grão branco servido com feijão',
     'MACARRAO|Massa italiana comprida','LASANHA|Massa em camadas com molho e queijo','BOLO|Doce assado de aniversário',
     'TEMPERO|Dá sabor à comida','PIMENTA|Deixa a comida ardida','CHURRASCO|Carne assada na brasa',
-    'SUSHI|Bolinho japonês de arroz com peixe cru','TAPIOCA|Beiju de goma de mandioca','BRIGADEIRO|Doce de leite condensado e chocolate',
+    'SUSHI|Prato japonês de arroz temperado, geralmente com peixe','TAPIOCA|Beiju de goma de mandioca','BRIGADEIRO|Doce de leite condensado e chocolate',
     'COXINHA|Salgado em formato de gota recheado de frango','PASTEL|Salgado frito vendido em feiras','FAROFA|Farinha torrada que acompanha a feijoada',
     'MANDIOCA|Raiz também chamada aipim ou macaxeira','DOCE|Contrário de salgado','SOPA|Prato líquido servido quente',
     'SALADA|Prato de folhas e legumes crus','CAFE|Bebida preta e quente que acorda o Brasil','LEITE|Líquido branco que vem da vaca',
@@ -356,7 +358,7 @@ const THEMES = {
     'HARPA|Instrumento de cordas dos anjos','FORRO|Ritmo nordestino de sanfona e zabumba','SANFONA|Instrumento de fole, também chamado acordeão',
     'PAGODE|Ritmo derivado do samba','CAVAQUINHO|Pequeno instrumento de quatro cordas do samba'] },
   animal: { label: 'Reino Animal', words: [
-    'LEAO|Rei da selva','LOBO|Canídeo que uiva para a lua','URSO|Mamífero grande que adora mel','TIGRE|Felino listrado da Ásia',
+    'LEAO|Grande felino africano, o macho tem juba','LOBO|Canídeo que uiva para a lua','URSO|Mamífero grande que adora mel','TIGRE|Felino listrado da Ásia',
     'ZEBRA|Parente do cavalo, listrada','GIRAFA|Animal de pescoço bem comprido','ELEFANTE|Maior animal terrestre, de tromba e presas',
     'MACACO|Primata que adora banana','ONCA|Felino pintado das matas brasileiras','ARARA|Ave colorida que imita sons',
     'TUCANO|Ave de bico grande e colorido','COBRA|Réptil sem patas','JACARE|Réptil de focinho largo, comum no Pantanal',
@@ -603,7 +605,7 @@ function renderGrid(){
     const cell=cells[r][c], el=document.createElement('div');
     if(!cell){ el.className='cell block'; el.setAttribute('aria-hidden','true'); }
     else{
-      el.className='cell letter'; cell.el=el; el.setAttribute('role','button'); labelCell(cell);
+      el.className='cell letter'; cell.el=el; el.setAttribute('role','button'); el.tabIndex=-1; labelCell(cell);
       if(cell.num){ const n=document.createElement('span'); n.className='num'; n.textContent=cell.num; el.appendChild(n); }
       const ch=document.createElement('span'); ch.className='ch'; el.appendChild(ch);
       el.addEventListener('pointerdown',e=>{ e.preventDefault(); initAudio(); });
@@ -651,7 +653,8 @@ function paintSelection(){
   if(!activeWord) return;
   activeWord.cells.forEach(c=>c.el.classList.add('hl'));
   cells[sel.r][sel.c].el.classList.add('sel');
-  document.querySelectorAll('.cell[aria-current]').forEach(e=>e.removeAttribute('aria-current'));
+  document.querySelectorAll('.cell[aria-current]').forEach(e=>{e.removeAttribute('aria-current');e.tabIndex=-1;});
+  cells[sel.r][sel.c].el.tabIndex=0;
   cells[sel.r][sel.c].el.setAttribute('aria-current','true');
 }
 
@@ -782,6 +785,7 @@ function hintLetter(){
 }
 function hintWord(){
   if(won||!activeWord) return;
+  if(activeWord.cells.every(c=>c.val===c.sol)) { toast('Essa palavra já está certa ✓'); return; }
   hints+=3; let j=false;
   activeWord.cells.forEach(c=>{ if(c.val!==c.sol){ setVal(c,c.sol,{rev:true}); j=evaluate(c)||j; } });
   playSound('pencil'); updateClueUI(); updateProgress(); if(!checkWin()&&j) goClue(1);
@@ -803,18 +807,19 @@ function moveArrow(dr,dc){
 function onKey(e){
   if(!puzzle||e.ctrlKey||e.metaKey||e.altKey) return;
   if($('win-modal').classList.contains('open')){ if(e.key==='Enter'){ e.preventDefault(); newGame(); } return; }
-  if(/^(SELECT|INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+  const tag=document.activeElement.tagName;
+  if(/^(SELECT|INPUT|TEXTAREA)$/.test(tag)) return;
+  const onBtn = tag==='BUTTON';   // botão focado: Enter/Espaço devem acioná-lo
   initAudio();
   const k=e.key;
   if(k.length===1){
     const L=k.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
     if(/^[A-Z]$/.test(L)){ e.preventDefault(); typeLetter(L); return; }
-    if(k===' '){ e.preventDefault(); selectCell(sel.r,sel.c,curDir==='across'?'down':'across'); }
+    if(k===' '&&!onBtn){ e.preventDefault(); selectCell(sel.r,sel.c,curDir==='across'?'down':'across'); }
     return;
   }
   if(k==='Backspace'||k==='Delete'){ e.preventDefault(); backspace(); }
-  else if(k==='Tab'){ e.preventDefault(); goClue(e.shiftKey?-1:1,false); }
-  else if(k==='Enter'){ e.preventDefault(); goClue(1); }
+  else if(k==='Enter'&&!onBtn){ e.preventDefault(); goClue(e.shiftKey?-1:1,false); }
   else if(k==='ArrowRight'){ e.preventDefault(); moveArrow(0,1); }
   else if(k==='ArrowLeft'){ e.preventDefault(); moveArrow(0,-1); }
   else if(k==='ArrowDown'){ e.preventDefault(); moveArrow(1,0); }
