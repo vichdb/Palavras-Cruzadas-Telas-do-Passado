@@ -242,7 +242,7 @@ body{
 
     <div class="clue-bar paper">
       <button id="btn-prev" class="btn nav-btn" aria-label="Pista anterior"><i class="fa-solid fa-chevron-left"></i></button>
-      <div class="clue-main">
+      <div class="clue-main" aria-live="polite">
         <div id="active-clue-title" class="clue-tag">Pista</div>
         <p id="active-clue-text">Toque numa casa para começar</p>
         <div id="pattern"></div>
@@ -250,7 +250,7 @@ body{
       <button id="btn-next" class="btn nav-btn" aria-label="Próxima pista"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
 
-    <div id="grid-container"></div>
+    <div id="grid-container" role="group" aria-label="Tabuleiro de palavras cruzadas"></div>
 
     <div class="actions">
       <button id="btn-mic" class="btn"><i class="fa-solid fa-microphone"></i> <span id="mic-label">Falar</span></button>
@@ -330,7 +330,10 @@ const THEMES = {
     'INCAS|Povo andino que construiu Machu Picchu','MAIAS|Povo mesoamericano de grandes astrônomos',
     'GREGOS|Povo que criou a democracia e as Olimpíadas','VIKINGS|Navegadores guerreiros do norte da Europa',
     'CASTELO|Fortaleza medieval de nobres','CAVALEIRO|Guerreiro medieval de armadura','REPUBLICA|Governo sem rei, proclamado em 1889',
-    'ABOLICAO|Fim da escravidão no Brasil, em 1888','MURALHA|Grande ___ da China'] },
+    'ABOLICAO|Fim da escravidão no Brasil, em 1888','MURALHA|Grande ___ da China',
+    'EGITO|Terra dos faraós e das pirâmides','MUMIA|Corpo embalsamado do Egito antigo','ATENAS|Berço da democracia grega','TROIA|Cidade do famoso cavalo de madeira',
+    'ESPARTA|Cidade grega de guerreiros famosos','GUERRA|Conflito armado entre nações','COLONIA|Território dominado por outro país',
+    'ESCRAVO|Pessoa forçada a trabalhar sem liberdade','DITADURA|Regime em que o poder fica concentrado num só','IMPERADOR|Chefe supremo de um império','CRUZADAS|Expedições medievais cristãs à Terra Santa'] },
   culinaria: { label: 'Culinária', words: [
     'PIZZA|Prato italiano redondo com queijo e molho','PAO|Alimento de farinha, água e fermento','AZEITE|Óleo extraído da azeitona',
     'QUEIJO|Derivado do leite, como mussarela e minas','FEIJAO|Par perfeito do arroz no prato brasileiro','ARROZ|Grão branco servido com feijão',
@@ -375,9 +378,9 @@ const THEMES = {
 };
 
 const DIFFS = {
-  facil:   { label: 'Fácil',   n: 9,  target: 7,  maxLen: 7,  attempts: 60, sub: 40, par: 240 },
-  medio:   { label: 'Médio',   n: 12, target: 12, maxLen: 9,  attempts: 60, sub: 55, par: 480 },
-  dificil: { label: 'Difícil', n: 15, target: 18, maxLen: 11, attempts: 60, sub: 70, par: 900 }
+  facil:   { label: 'Fácil',   n: 9,  target: 7,  maxLen: 7,  attempts: 150, sub: 40, par: 240 },
+  medio:   { label: 'Médio',   n: 12, target: 12, maxLen: 9,  attempts: 150, sub: 55, par: 480 },
+  dificil: { label: 'Difícil', n: 15, target: 18, maxLen: 11, attempts: 150, sub: 70, par: 900 }
 };
 
 /* =====================================================================
@@ -598,9 +601,9 @@ function renderGrid(){
   g.style.gridTemplateColumns=`repeat(${puzzle.cols}, var(--cs))`;
   for(let r=0;r<puzzle.rows;r++) for(let c=0;c<puzzle.cols;c++){
     const cell=cells[r][c], el=document.createElement('div');
-    if(!cell){ el.className='cell block'; }
+    if(!cell){ el.className='cell block'; el.setAttribute('aria-hidden','true'); }
     else{
-      el.className='cell letter'; cell.el=el;
+      el.className='cell letter'; cell.el=el; el.setAttribute('role','button'); labelCell(cell);
       if(cell.num){ const n=document.createElement('span'); n.className='num'; n.textContent=cell.num; el.appendChild(n); }
       const ch=document.createElement('span'); ch.className='ch'; el.appendChild(ch);
       el.addEventListener('pointerdown',e=>{ e.preventDefault(); initAudio(); });
@@ -627,6 +630,13 @@ function renderClues(){
   $('cnt-across').textContent=na+' pistas'; $('cnt-down').textContent=nd+' pistas';
 }
 
+/* ---------- Acessibilidade ---------- */
+function labelCell(cell){
+  if(!cell||!cell.el) return;
+  const refs=[cell.wA&&`${cell.wA.number} horizontal`, cell.wD&&`${cell.wD.number} vertical`].filter(Boolean).join(' e ');
+  cell.el.setAttribute('aria-label',`Linha ${cell.r+1}, coluna ${cell.c+1}, pista ${refs}, ${cell.val?'letra '+cell.val:'vazia'}`);
+}
+
 /* ---------- Seleção ---------- */
 function selectCell(r,c,dir,quiet){
   const cell=cells[r]&&cells[r][c]; if(!cell) return;
@@ -641,6 +651,8 @@ function paintSelection(){
   if(!activeWord) return;
   activeWord.cells.forEach(c=>c.el.classList.add('hl'));
   cells[sel.r][sel.c].el.classList.add('sel');
+  document.querySelectorAll('.cell[aria-current]').forEach(e=>e.removeAttribute('aria-current'));
+  cells[sel.r][sel.c].el.setAttribute('aria-current','true');
 }
 
 function updateClueUI(){
@@ -668,7 +680,7 @@ function goClue(delta, onlyOpen=true){
 /* ---------- Entrada de letras ---------- */
 function setVal(cell,v,{rev=false}={}){
   cell.val=v; cell.mark=''; cell.rev=rev;
-  const el=cell.el; el.querySelector('.ch').textContent=v;
+  const el=cell.el; el.querySelector('.ch').textContent=v; labelCell(cell);
   el.classList.remove('ok','err','pop','rev');
   if(rev) el.classList.add('rev');
   if(v){ void el.offsetWidth; el.classList.add('pop'); }
