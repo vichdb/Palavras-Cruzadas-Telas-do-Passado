@@ -613,7 +613,7 @@ function newGame(){
   $('score').textContent='0'; $('timer').textContent='00:00';
   $('badge-theme').textContent=puzzle.themeLabel; $('badge-diff').textContent=DIFFS[diffKey].label;
   $('win-modal').classList.remove('open');
-  wins>=0 && $('edition').textContent='Edição de '+new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})+' · Nº '+(wins+1);
+  $('edition').textContent='Edição de '+new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})+' · Nº '+(wins+1);
 
   renderGrid(); renderClues(); fitGrid(); updateProgress();
   clearInterval(timerId);
