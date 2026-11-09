@@ -182,10 +182,44 @@ body{
 .win-stats span.k{display:block;color:var(--ink-soft);text-transform:uppercase;font-size:10px;letter-spacing:.12em}
 .win-stats span.v{display:block;font-weight:700;font-size:16px;margin-top:2px}
 
+
+button.chip{border:0;cursor:pointer;font-family:inherit}
+button.chip:hover{filter:brightness(1.25)}
+button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.chip.daily{background:var(--red)}
+.btn .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-left:6px;background:var(--red);box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+.btn .dot.done{background:var(--ok)}
+.btn .dot:not(.done){animation:pulse .9s infinite alternate}
+.cell.wave{animation:wave .7s ease both}
+@keyframes wave{0%{transform:translateY(0) scale(1)}40%{transform:translateY(-9px) scale(1.14);background:#ffe38a;box-shadow:0 6px 10px rgba(0,0,0,.3);z-index:3}100%{transform:translateY(0) scale(1)}}
+.xpbar{height:12px;border:2px solid var(--ink);background:var(--sheet-3);position:relative;margin:6px 0 2px}
+.xpbar i{display:block;height:100%;background:repeating-linear-gradient(45deg,var(--ink) 0 4px,var(--ink-soft) 4px 8px);transition:width 1s .3s ease-out}
+.win-xp{font:700 15px 'Special Elite',monospace;margin:2px 0 0}
+.rankup{margin:10px 0 0;padding:6px 8px;border:3px double var(--red);color:var(--red);font:700 13px 'Special Elite',monospace;text-transform:uppercase;letter-spacing:.08em;animation:stamp .5s .2s cubic-bezier(.2,1.6,.4,1) both}
+.win-extra{font:12px/1.5 'Special Elite',monospace;text-align:left;margin:10px 0 12px}
+.win-extra .row{padding:3px 0;border-bottom:1px dotted var(--ink-soft)}
+.btn-row{display:flex;gap:8px}
+.btn-row .btn{flex:1;justify-content:center;padding:11px}
+#profile-modal{position:fixed;inset:0;z-index:85;background:rgba(20,15,8,.65);display:none;align-items:center;justify-content:center;padding:16px}
+#profile-modal.open{display:flex}
+.prof-card{max-width:460px;width:100%;max-height:92vh;overflow:auto;padding:22px 20px 18px;position:relative;animation:rise .3s ease-out;background:var(--sheet-2)}
+.prof-card h2{margin:0 0 2px;font:900 24px 'Old Standard TT',serif;text-transform:uppercase;letter-spacing:.08em;text-align:center}
+.prof-card h3{margin:14px 0 6px;font:700 12px 'Special Elite',monospace;text-transform:uppercase;letter-spacing:.14em;border-bottom:2px solid var(--ink)}
+.prof-rank{text-align:center;font:700 18px 'Old Standard TT',serif}
+.prof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font:12px 'Special Elite',monospace;text-align:center}
+.prof-grid div{padding:6px 2px;border:1px solid var(--ink-soft);background:rgba(255,255,255,.25)}
+.prof-grid b{display:block;font-size:17px}
+.seals{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.seal{padding:6px 2px;text-align:center;font:10px/1.2 'Special Elite',monospace;border:2px solid var(--ink);background:rgba(255,255,255,.3);cursor:help}
+.seal .e{display:block;font-size:26px;line-height:1.2}
+.seal.locked{filter:grayscale(1);opacity:.4;border-style:dashed}
+.prof-close{position:absolute;top:6px;right:8px;background:none;border:0;font-size:22px;cursor:pointer;color:var(--ink)}
+@media (max-width:520px){.seals{grid-template-columns:repeat(3,1fr)}}
+
 /* ---------- Impressão ---------- */
 @media print{
   body{background:#fff!important}
-  .masthead::before,.masthead::after,.layout::before,.layout::after,.masthead .controls,.actions,#virtual-keyboard,.statusbar,.progress,.clue-bar,#toast,#win-modal{display:none!important}
+  .masthead::before,.masthead::after,.layout::before,.layout::after,.masthead .controls,.actions,#virtual-keyboard,.statusbar,.progress,.clue-bar,#toast,#win-modal,#profile-modal{display:none!important}
   .masthead{background:#fff!important;color:#000!important;box-shadow:none!important}
   .brand h1{text-shadow:none!important}.presents{color:#000!important}.colophon{display:block!important;color:#000!important;margin:12px 0 0!important}.brand p{color:#000!important}
   .layout{display:block!important;margin:0!important;padding:0!important;background:#fff!important;box-shadow:none!important;border:0!important}
@@ -220,12 +254,16 @@ body{
         <option value="musica">🎶 Música</option>
         <option value="animal">🐾 Reino Animal</option>
         <option value="objetos">🏠 Dia a Dia</option>
+        <option value="esportes">⚽ Esportes</option>
+        <option value="ciencia">🔬 Ciência e Natureza</option>
+        <option value="cultura">🪇 Cultura Brasileira</option>
       </select>
       <select id="diff-select" class="pick" aria-label="Dificuldade">
         <option value="facil">🌱 Fácil</option>
         <option value="medio" selected>⚡ Médio</option>
         <option value="dificil">🔥 Difícil</option>
       </select>
+      <button id="btn-daily" class="btn" title="Desafio do dia: o mesmo para todo mundo"><i class="fa-regular fa-calendar-check"></i> Desafio do dia<span id="daily-dot" class="dot" aria-hidden="true"></span></button>
       <button id="btn-new" class="btn primary"><i class="fa-solid fa-arrows-rotate"></i> Novo jogo</button>
       <button id="btn-sound" class="btn" title="Som"><i id="sound-icon" class="fa-solid fa-volume-high"></i></button>
       <button id="btn-kbd" class="btn" title="Teclado na tela"><i class="fa-regular fa-keyboard"></i></button>
@@ -240,8 +278,11 @@ body{
       <div class="chips">
         <span id="badge-theme" class="chip">Tema</span>
         <span id="badge-diff" class="chip">Médio</span>
+        <span id="badge-daily" class="chip daily" hidden>Desafio do dia</span>
       </div>
       <div class="chips">
+        <button id="btn-profile" class="chip" title="Meu caderno: nível, selos e estatísticas"><i class="fa-solid fa-book"></i> <span id="rank-name">Estagiário</span></button>
+        <span class="stat" id="stat-streak" title="Sequência de desafios diários"><i class="fa-solid fa-fire"></i><span id="streak">0</span></span>
         <span class="stat" id="stat-score" title="Pontos"><i class="fa-solid fa-feather-pointed"></i><span id="score">0</span></span>
         <span class="stat" title="Estrelas acumuladas"><i class="fa-solid fa-star"></i><span id="total-stars">0</span></span>
         <span class="stat" title="Tempo"><i class="fa-regular fa-clock"></i><span id="timer">00:00</span></span>
@@ -292,18 +333,44 @@ body{
 
 <div id="toast" role="status" aria-live="polite"></div>
 
-<div id="win-modal" role="dialog" aria-modal="true">
+<div id="win-modal" role="dialog" aria-modal="true" aria-labelledby="win-title">
   <div class="paper win-card">
     <div class="stamp">RESOLVIDO</div>
-    <div style="font-size:42px">🏆</div>
-    <h2>Parabéns!</h2>
-    <p class="tw" style="font-size:13px;margin:0;color:var(--ink-soft)">Cruzada completada com maestria.<br><span style="letter-spacing:.14em;text-transform:uppercase;font-size:10px">Telas do Passado</span></p>
+    <div style="font-size:42px" id="win-emoji">🏆</div>
+    <h2 id="win-title">Parabéns!</h2>
+    <p class="tw" id="win-sub" style="font-size:13px;margin:0;color:var(--ink-soft)">Cruzada completada com maestria.</p>
     <div class="win-stats">
       <div><span class="k">Tempo</span><span class="v" id="win-time">00:00</span></div>
       <div><span class="k">Estrelas</span><span class="v" id="win-stars">⭐⭐⭐</span></div>
       <div><span class="k">Pontos</span><span class="v" id="win-score">0</span></div>
     </div>
-    <button id="btn-again" class="btn primary" style="width:100%;justify-content:center;padding:11px">Próximo desafio</button>
+    <p class="win-xp" id="win-xp">+0 XP</p>
+    <div class="xpbar" aria-hidden="true"><i id="win-xpfill" style="width:0"></i></div>
+    <div class="tw" id="win-rank" style="font-size:11px;color:var(--ink-soft)"></div>
+    <div id="win-rankup"></div>
+    <div class="win-extra" id="win-extra"></div>
+    <div class="btn-row">
+      <button id="btn-share" class="btn"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
+      <button id="btn-again" class="btn primary">Próximo desafio</button>
+    </div>
+    <p class="tw" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin:12px 0 0;color:var(--ink-soft)">Telas do Passado</p>
+  </div>
+</div>
+
+<div id="profile-modal" role="dialog" aria-modal="true" aria-labelledby="prof-title">
+  <div class="paper prof-card">
+    <button class="prof-close" id="prof-close" aria-label="Fechar">×</button>
+    <h2 id="prof-title">Meu caderno</h2>
+    <div class="prof-rank" id="prof-rank">—</div>
+    <div class="xpbar" aria-hidden="true"><i id="prof-xpfill" style="width:0"></i></div>
+    <div class="tw" id="prof-xptext" style="font-size:11px;text-align:center;color:var(--ink-soft)"></div>
+    <h3>Estatísticas</h3>
+    <div class="prof-grid" id="prof-stats"></div>
+    <h3>Melhores tempos</h3>
+    <div class="prof-grid" id="prof-best"></div>
+    <h3>Selos conquistados <span id="seal-count"></span></h3>
+    <div class="seals" id="prof-seals"></div>
+    <div style="text-align:center;margin-top:14px"><button id="prof-reset" class="btn" style="font-size:11px">Apagar meu progresso</button></div>
   </div>
 </div>
 
@@ -392,6 +459,84 @@ const THEMES = {
     'CANETA|Escreve com tinta','LAPIS|Escreve e pode ser apagado','CADERNO|Folhas pautadas encadernadas','BORRACHA|Apaga o que o lápis escreveu'] }
 };
 
+/* ---- Temas novos ---- */
+THEMES.esportes = { label: 'Esportes', words: [
+  'FUTEBOL|Esporte mais popular do Brasil','GOL|Ponto marcado quando a bola entra na rede','BOLA|Objeto redondo perseguido em muitos jogos',
+  'TENIS|Esporte jogado com raquete e rede','BASQUETE|Esporte em que se arremessa a bola na cesta','VOLEI|Esporte de rede jogado com as mãos, em sets',
+  'NATACAO|Esporte praticado na piscina','ATLETISMO|Conjunto de corridas, saltos e arremessos','JUDO|Arte marcial japonesa de projeções',
+  'BOXE|Luta de punhos com luvas','MARATONA|Corrida de 42 quilômetros','OLIMPIADA|Maior competição esportiva do mundo',
+  'MEDALHA|Prêmio pendurado no pescoço do campeão','TROFEU|Taça entregue ao vencedor','JUIZ|Quem apita e aplica as regras',
+  'TORCIDA|Conjunto de fãs que apoia o time','CAMPEAO|Quem vence o torneio','ESTADIO|Local onde acontecem os jogos de futebol',
+  'PENALTI|Cobrança direta contra o goleiro, da marca de cal','GOLEIRO|Defende a meta do time','SURFE|Esporte de deslizar sobre as ondas',
+  'CICLISMO|Esporte de pedalar em competição','GINASTICA|Esporte de acrobacias e flexibilidade','SKATE|Prancha com rodas usada em manobras',
+  'RAQUETE|Instrumento usado no tênis','CESTA|Alvo do basquete','SAQUE|Lance que inicia o ponto no vôlei ou no tênis',
+  'PLACAR|Painel que mostra o resultado do jogo','CAMPO|Terreno de jogo do futebol','APITO|Instrumento sonoro do árbitro'] };
+THEMES.ciencia = { label: 'Ciência e Natureza', words: [
+  'ATOMO|Unidade básica da matéria','CELULA|Unidade básica dos seres vivos','OXIGENIO|Gás que respiramos',
+  'HIDROGENIO|Elemento mais leve e mais abundante do universo','PLANETA|Corpo que gira em torno de uma estrela','GRAVIDADE|Força que nos prende ao chão',
+  'LUA|Satélite natural da Terra','SOL|Estrela no centro do nosso sistema','ESTRELA|Corpo celeste que brilha com luz própria',
+  'GALAXIA|Imenso conjunto de estrelas, como a Via Láctea','CLOROFILA|Pigmento verde das plantas','DINOSSAURO|Réptil gigante extinto há milhões de anos',
+  'FOSSIL|Resto preservado de um ser vivo antigo','OSSO|Peça rígida do esqueleto','CORACAO|Órgão que bombeia o sangue',
+  'PULMAO|Órgão da respiração','CEREBRO|Órgão que comanda o corpo','VACINA|Prepara o corpo contra doenças',
+  'VIRUS|Microrganismo que só se multiplica dentro de células','BACTERIA|Ser microscópico de uma só célula','ENERGIA|Capacidade de realizar trabalho',
+  'RAIO|Descarga elétrica da tempestade','TROVAO|Barulho que vem depois do relâmpago','ARCOIRIS|Fenômeno colorido no céu depois da chuva',
+  'CLIMA|Condições do tempo ao longo dos anos','TERREMOTO|Tremor do solo','MICROSCOPIO|Aparelho que amplia o que é minúsculo',
+  'TELESCOPIO|Instrumento para ver astros distantes','MAR|Grande extensão de água salgada','RIO|Curso de água que corre em direção ao mar'] };
+THEMES.cultura = { label: 'Cultura Brasileira', words: [
+  'SACI|Moleque travesso de uma perna só e gorro vermelho','CURUPIRA|Protetor das matas, de pés virados para trás','IARA|Sereia do folclore brasileiro',
+  'BOITATA|Cobra de fogo do folclore','LOBISOMEM|Lenda do homem que vira bicho na lua cheia','CUCA|Bruxa com cara de jacaré do folclore',
+  'CARNAVAL|Festa de fantasias e desfiles antes da Quaresma','FREVO|Dança pernambucana de sombrinha colorida','MARACATU|Cortejo pernambucano de tambores e reis',
+  'CAPOEIRA|Luta e dança de origem africana','BERIMBAU|Instrumento de arco e cabaça da capoeira','JUNINA|Festa ___ com quadrilha e fogueira',
+  'QUADRILHA|Dança animada das festas de São João','SERTAO|Região do interior nordestino, de clima seco','CORDEL|Literatura em versos vendida em folhetos',
+  'REPENTE|Cantoria de improviso','CHORO|Gênero instrumental carioca de flauta e cavaquinho','ACARAJE|Bolinho baiano de feijão frito no dendê',
+  'BAIANA|Moça da Bahia, de saia rodada e turbante','AXE|Ritmo baiano nascido em Salvador','ARTESANATO|Trabalho feito à mão',
+  'CANGACEIRO|Bandoleiro nordestino do tempo de Lampião','LAMPIAO|Rei do Cangaço','BUMBA|___ meu boi, folguedo popular',
+  'CACHACA|Destilado de cana-de-açúcar','MANDACARU|Cacto típico do sertão','REDE|Tecido pendurado para descansar balançando'] };
+
+/* ---- Mais palavras nos temas antigos ---- */
+const EXTRA = {
+  cinema: ['PREMIERE|Estreia solene com convidados','SUSPENSE|Gênero que prende a respiração','MUSICAL|Filme em que se canta e se dança',
+    'FICCAO|Gênero de mundos imaginários e futuro','PRODUTOR|Quem cuida do dinheiro e da organização do filme','EDICAO|Montagem final das cenas',
+    'TELONA|Tela grande do cinema','CORTE|Grito do diretor ao fim da cena','CLASSICO|Filme antigo que marcou época',
+    'BILHETERIA|Onde se compra o ingresso','INGRESSO|Papel que dá entrada na sessão','ROTEIRISTA|Autor do texto de um filme'],
+  geografia: ['BOLIVIA|País sem litoral da América do Sul','URUGUAI|País vizinho ao sul do Rio Grande do Sul','PARAGUAI|País vizinho com capital em Assunção',
+    'ITALIA|País em forma de bota','ASIA|Maior continente do planeta','OCEANIA|Continente da Austrália','POLO|Extremo norte ou sul da Terra',
+    'MAPA|Representação do território no papel','BUSSOLA|Instrumento cuja agulha aponta o norte','PANTANAL|Maior planície alagável do mundo',
+    'CERRADO|Bioma de árvores retorcidas do Brasil central','CAATINGA|Bioma exclusivo do Brasil, no sertão nordestino',
+    'AMAZONIA|Maior floresta tropical do mundo','CATARATAS|Quedas de água de Foz do Iguaçu','SAARA|Maior deserto quente do mundo',
+    'BAHIA|Estado brasileiro de Salvador','MINAS|Estado de Belo Horizonte e do pão de queijo'],
+  historia: ['FEUDALISMO|Sistema medieval de senhores e vassalos','ROMANOS|Povo que construiu um vasto império a partir de uma cidade italiana',
+    'ASTECAS|Povo mexicano da cidade de Tenochtitlán','TUTANCAMON|Faraó-menino de máscara de ouro','ESPARTACO|Gladiador que liderou uma revolta de escravos',
+    'DOMPEDRO|Proclamou a Independência às margens do Ipiranga','INQUISICAO|Tribunal religioso medieval que perseguia hereges',
+    'GUTENBERG|Inventor da imprensa de tipos móveis','MUSEU|Lugar que guarda objetos da história','ARQUEOLOGO|Estuda vestígios do passado',
+    'CARAVELA|Navio das Grandes Navegações','ESCRITA|Invenção que marcou o fim da Pré-História'],
+  culinaria: ['CARNE|Alimento de boi, porco ou frango','PEIXE|Alimento tirado de rios e mares','BANANA|Fruta amarela de casca fácil de descascar',
+    'LARANJA|Fruta cítrica que dá suco','MANGA|Fruta tropical alaranjada e fibrosa','ABACAXI|Fruta de coroa espinhosa',
+    'ACAI|Fruta roxa do Norte, servida gelada','CHOCOLATE|Doce feito de cacau','SORVETE|Sobremesa gelada de casquinha',
+    'MILHO|Grão amarelo da pamonha','TOMATE|Fruto vermelho do molho','CEBOLA|Bulbo que faz chorar ao ser cortado',
+    'ALHO|Tempero de dentes e cheiro forte','MANTEIGA|Gordura do leite passada no pão','GELEIA|Doce de fruta para passar no pão',
+    'OMELETE|Prato de ovos batidos','VINAGRE|Tempero ácido para salada'],
+  musica: ['OPERA|Drama musical cantado no palco','ORQUESTRA|Grande grupo de músicos com maestro','MAESTRO|Quem rege a orquestra',
+    'REFRAO|Parte da música que se repete','LETRA|Texto cantado de uma canção','VOZ|Instrumento natural do cantor',
+    'CLARINETE|Instrumento de palheta de som aveludado','TROMPETE|Instrumento de metal de som brilhante','TRIANGULO|Instrumento de metal pequeno, comum no forró',
+    'ZABUMBA|Bumbo do forró','PANDEIRO|Instrumento de aro e platinelas, comum no samba','CUICA|Instrumento do samba que parece chorar',
+    'COMPOSITOR|Quem cria músicas','SERENATA|Música romântica cantada sob a janela','DISCO|Bolacha de vinil que gira na vitrola',
+    'VITROLA|Aparelho antigo que toca discos','FANFARRA|Banda de metais que anima desfiles'],
+  animal: ['RATO|Roedor que o gato persegue','ARANHA|Aracnídeo de oito patas que tece teia','SAPO|Anfíbio que coaxa','PORCO|Animal da lama que faz oinc',
+    'VACA|Dá leite e muge','CABRA|Parente da ovelha que escala rochas','BORBOLETA|Inseto de asas coloridas, antes lagarta',
+    'PREGUICA|Animal lentíssimo que vive pendurado em árvores','CAPIVARA|Maior roedor do mundo','TAMANDUA|Come formigas com língua comprida',
+    'FLAMINGO|Ave rosada que dorme numa perna só','GAVIAO|Ave de rapina de garras afiadas','POLVO|Molusco de oito tentáculos',
+    'CARANGUEJO|Crustáceo que anda de lado','ESQUILO|Pequeno roedor que guarda nozes','RAPOSA|Animal astuto de cauda felpuda',
+    'CAMELO|Animal do deserto de corcovas','HIPOPOTAMO|Grande animal africano que vive na água','PAPAGAIO|Ave verde que repete palavras'],
+  objetos: ['ARMARIO|Móvel de portas para guardar roupas','GAVETA|Caixa deslizante de um móvel','CORTINA|Pano que cobre a janela',
+    'TRAVESSEIRO|Apoio macio para a cabeça','COBERTOR|Cobre a cama no frio','PANELA|Utensílio de cozinhar no fogo','TORNEIRA|Abre e fecha a água',
+    'CHUVEIRO|Dele cai a água no banho','SAPATO|Calçado fechado','CHINELO|Calçado aberto de praia','OCULOS|Ajudam a enxergar',
+    'CARTEIRA|Guarda dinheiro e documentos','VELA|Cera com pavio que ilumina','FOSFORO|Palito que acende com atrito','MARTELO|Ferramenta de bater pregos',
+    'TESOURA|Corta papel e tecido','ESCADA|Degraus para subir','ELEVADOR|Caixa que sobe e desce nos prédios','BALANCA|Mede o peso',
+    'TELEVISAO|Aparelho de imagem e som da sala','VENTILADOR|Refresca o ambiente com hélices','CAMPAINHA|Toca ao lado da porta','LANTERNA|Ilumina com pilhas']
+};
+Object.keys(EXTRA).forEach(k => THEMES[k].words.push(...EXTRA[k]));
+
 const DIFFS = {
   facil:   { label: 'Fácil',   n: 9,  target: 7,  maxLen: 7,  attempts: 150, sub: 40, par: 240 },
   medio:   { label: 'Médio',   n: 12, target: 12, maxLen: 9,  attempts: 150, sub: 55, par: 480 },
@@ -401,7 +546,10 @@ const DIFFS = {
 /* =====================================================================
    GERADOR PROCEDURAL — toda palavra cruza com outra (interseções válidas)
    ===================================================================== */
-function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+let rnd = Math.random;
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function seedFrom(str){ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
 
 // Retorna nº de cruzamentos (>=0) se a palavra cabe, ou -1 se não cabe.
 function canPlace(g, own, N, w, r, c, dir){
@@ -445,7 +593,7 @@ function findBest(g, own, N, w){
       if(!own[r][c].d){ const k=canPlace(g,own,N,w,r-i,c,'down');   if(k>0){ if(k>bc){bc=k;best=[];} if(k===bc) best.push([r-i,c,'down']); } }
     }
   }
-  return best.length ? best[Math.floor(Math.random()*best.length)] : null;
+  return best.length ? best[Math.floor(rnd()*best.length)] : null;
 }
 
 function tryBuild(pool, N, target){
@@ -453,9 +601,9 @@ function tryBuild(pool, N, target){
   const own=Array.from({length:N},()=>Array.from({length:N},()=>({a:false,d:false})));
   const placed=[];
   const sorted=pool.slice().sort((x,y)=>y.word.length-x.word.length);
-  const first=sorted[Math.floor(Math.random()*Math.min(4,sorted.length))];
-  const d0=Math.random()<.5?'across':'down';
-  const mid=Math.floor(N/2)+(Math.random()<.5?0:-1);
+  const first=sorted[Math.floor(rnd()*Math.min(4,sorted.length))];
+  const d0=rnd()<.5?'across':'down';
+  const mid=Math.floor(N/2)+(rnd()<.5?0:-1);
   const p0 = d0==='across' ? {row:mid,col:Math.floor((N-first.word.length)/2),dir:d0} : {row:Math.floor((N-first.word.length)/2),col:mid,dir:d0};
   Object.assign(p0,{word:first.word,clue:first.clue,theme:first.theme});
   put(g,own,p0); placed.push(p0);
@@ -496,7 +644,8 @@ function finalize(b){
   return {rows,cols,words,letters:L};
 }
 
-function buildPuzzle(themeKey, diffKey){
+function buildPuzzle(themeKey, diffKey, seed){
+  rnd = seed ? mulberry32(seedFrom(String(seed))) : Math.random;
   const cfg=DIFFS[diffKey];
   const keys = themeKey==='all' ? Object.keys(THEMES) : [themeKey];
   const pool=[];
@@ -532,6 +681,7 @@ function validate(p){
 const $ = id => document.getElementById(id);
 let puzzle=null, cells=[], sel={r:-1,c:-1}, curDir='across', activeWord=null;
 let solved=new Set(), hints=0, secs=0, score=0, won=false, timerId=null;
+let prof=null;
 let soundOn=true, totalStars=0, wins=0, recog=null, listening=false, synths=null, winT=null;
 
 const store = {
@@ -562,7 +712,8 @@ function playSound(t){
     else if(t==='tick') synths.tick.triggerAttackRelease('C3','32n',now);
     else if(t==='word'){ synths.chime.triggerAttackRelease('E5','16n',now); synths.chime.triggerAttackRelease('A5','8n',now+.1); }
     else if(t==='error') synths.chime.triggerAttackRelease('A2','8n',now);
-    else if(t==='win'){ ['C5','E5','G5','C6'].forEach((n,i)=>synths.chime.triggerAttackRelease(n,'8n',now+i*.14)); }
+    else if(t==='win'){ ['C5','E5','G5','C6','G5','C6','E6','G6'].forEach((n,i)=>synths.chime.triggerAttackRelease(n,i>5?'4n':'8n',now+i*.16)); }
+    else if(t==='rank'){ synths.chime.triggerAttackRelease(['C5','G5','E6'],'4n',now); }
   }catch(e){}
 }
 
@@ -581,13 +732,166 @@ function fitGrid(){
   document.documentElement.style.setProperty('--cs',cs+'px');
 }
 
+
+/* ---------- Progresso do jogador (salvo no navegador) ---------- */
+const RANKS=[[0,'Estagiário do Caderno'],[100,'Curioso'],[300,'Cruzadista'],[700,'Letrado'],[1400,'Mestre das Letras'],[2600,'Imortal da Academia'],[4500,'Lenda do Passado']];
+const SEALS=[
+  {id:'first',e:'✏️',n:'Primeira Cruzada',d:'Complete seu primeiro tabuleiro',t:p=>p.wins>=1},
+  {id:'five',e:'📓',n:'Caderno Cheio',d:'Complete 5 tabuleiros',t:p=>p.wins>=5},
+  {id:'twenty',e:'🎖️',n:'Veterano',d:'Complete 20 tabuleiros',t:p=>p.wins>=20},
+  {id:'nohint',e:'🧠',n:'De Cabeça',d:'Complete um tabuleiro sem usar dicas',t:p=>p.nohint>=1},
+  {id:'fast',e:'⚡',n:'Relâmpago',d:'Termine em metade do tempo de referência, sem dicas',t:p=>p.fast>=1},
+  {id:'hard',e:'🔥',n:'Duro na Queda',d:'Vença uma cruzada Difícil',t:p=>p.hard>=1},
+  {id:'daily1',e:'📅',n:'Assíduo',d:'Cumpra um desafio do dia',t:p=>p.dailyCount>=1},
+  {id:'streak3',e:'🗓️',n:'Três em Linha',d:'3 dias seguidos de desafio do dia',t:p=>p.bestStreak>=3},
+  {id:'streak7',e:'🌟',n:'Semana Perfeita',d:'7 dias seguidos de desafio do dia',t:p=>p.bestStreak>=7},
+  {id:'themes',e:'🎨',n:'Eclético',d:'Vença em 5 temas diferentes',t:p=>Object.keys(p.themes).length>=5},
+  {id:'stars10',e:'⭐',n:'Dez Estrelas',d:'Ganhe 3 estrelas em 10 partidas',t:p=>p.three>=10},
+  {id:'master',e:'👑',n:'Mestre das Letras',d:'Alcance o nível Mestre das Letras',t:p=>p.xp>=1400}
+];
+function newProf(){ return {xp:0,stars:0,wins:0,streak:0,bestStreak:0,lastDaily:'',dailyCount:0,best:{},seals:[],themes:{},three:0,nohint:0,fast:0,hard:0}; }
+function loadProf(){
+  let p=null;
+  try{ p=JSON.parse(store.get('prof','null')); }catch(e){}
+  if(!p||typeof p!=='object'){
+    p=newProf();
+    p.stars=parseInt(store.get('stars','0'),10)||0; p.wins=parseInt(store.get('wins','0'),10)||0;   // migra progresso antigo
+    p.xp=p.wins*40+p.stars*10;
+  }
+  const d=newProf(); Object.keys(d).forEach(k=>{ if(p[k]===undefined||p[k]===null) p[k]=d[k]; });
+  prof=p; totalStars=p.stars; wins=p.wins;
+}
+function saveProf(){ store.set('prof',JSON.stringify(prof)); store.set('stars',prof.stars); store.set('wins',prof.wins); }
+function rankInfo(xp){
+  let i=0; for(let k=0;k<RANKS.length;k++) if(xp>=RANKS[k][0]) i=k;
+  const base=RANKS[i][0], next=RANKS[i+1]?RANKS[i+1][0]:null;
+  return {i,name:RANKS[i][1],base,next,pct:next?Math.min(100,Math.round((xp-base)/(next-base)*100)):100};
+}
+const pad2=n=>String(n).padStart(2,'0');
+const dstr=d=>d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+function todayStr(){ return window.__fakeToday||dstr(new Date()); }
+function dayShift(str,n){ const [y,m,d]=str.split('-').map(Number); return dstr(new Date(y,m-1,d+n)); }
+function curStreak(){ const t=todayStr(); return (prof.lastDaily===t||prof.lastDaily===dayShift(t,-1))?prof.streak:0; }
+function dailyDone(){ return prof.lastDaily===todayStr(); }
+const THEME_KEYS=['cinema','geografia','historia','culinaria','musica','animal','objetos','esportes','ciencia','cultura'];
+function dailyConfig(dateStr){
+  const h=seedFrom('telas:'+dateStr);
+  const wd=new Date(dateStr.replace(/-/g,'/')).getDay();       // 0=dom
+  const diff=(wd===0||wd===1)?'facil':(wd===5||wd===6)?'dificil':'medio';
+  return {theme:THEME_KEYS[h%THEME_KEYS.length],diff,seed:'telas-do-passado:'+dateStr};
+}
+function refreshHUD(){
+  const r=rankInfo(prof.xp);
+  $('rank-name').textContent=r.name; $('total-stars').textContent=prof.stars;
+  $('streak').textContent=curStreak();
+  $('stat-streak').style.display=curStreak()>0?'':'none';
+  $('daily-dot').classList.toggle('done',dailyDone());
+  $('btn-daily').title=dailyDone()?'Desafio de hoje já cumprido ✓ (dá para rejogar, sem XP extra)':'Desafio do dia: o mesmo para todo mundo';
+}
+function awardWin(stars){
+  const before=rankInfo(prof.xp), res={xp:0,seals:[],streakMsg:'',firstDaily:false};
+  let xp={facil:30,medio:60,dificil:100}[puzzle.diff]+stars*10;
+  if(puzzle.daily){
+    const t=puzzle.dailyDate;
+    if(prof.lastDaily!==t){
+      res.firstDaily=true; xp+=50;
+      prof.streak=(prof.lastDaily===dayShift(t,-1))?prof.streak+1:1;
+      prof.bestStreak=Math.max(prof.bestStreak,prof.streak);
+      prof.lastDaily=t; prof.dailyCount++;
+      res.streakMsg=prof.streak>1?`🔥 ${prof.streak} dias seguidos! Volte amanhã para manter a sequência.`:'🔥 Sequência iniciada! Volte amanhã para somar o 2º dia.';
+    } else res.streakMsg='Desafio de hoje já contava — esta rodada foi só por diversão.';
+  }
+  prof.xp+=xp; prof.stars+=stars; prof.wins++;
+  if(stars===3) prof.three++;
+  if(hints===0) prof.nohint++;
+  if(hints===0&&secs<=DIFFS[puzzle.diff].par/2) prof.fast++;
+  if(puzzle.diff==='dificil') prof.hard++;
+  if(puzzle.themeKey) prof.themes[puzzle.themeKey]=1;
+  if(!prof.best[puzzle.diff]||secs<prof.best[puzzle.diff]) prof.best[puzzle.diff]=secs;
+  SEALS.forEach(S=>{ if(!prof.seals.includes(S.id)&&S.t(prof)){ prof.seals.push(S.id); res.seals.push(S); } });
+  saveProf(); totalStars=prof.stars; wins=prof.wins;
+  const after=rankInfo(prof.xp);
+  res.xp=xp; res.before=before; res.after=after; res.rankUp=after.i>before.i;
+  return res;
+}
+function sealHTML(S,got){ return `<div class="seal${got?'':' locked'}" tabindex="0" title="${S.n}: ${S.d}" aria-label="${S.n}: ${S.d}${got?' (conquistado)':' (bloqueado)'}"><span class="e">${S.e}</span>${S.n}</div>`; }
+function openProfile(){
+  const r=rankInfo(prof.xp), set=(id,h)=>{ $(id).innerHTML=h; };
+  $('prof-rank').textContent=r.name;
+  $('prof-xpfill').style.width=r.pct+'%';
+  $('prof-xptext').textContent=r.next?`${prof.xp} XP · faltam ${r.next-prof.xp} para ${RANKS[r.i+1][1]}`:`${prof.xp} XP · nível máximo!`;
+  set('prof-stats',`<div><b>${prof.wins}</b>partidas</div><div><b>${prof.stars}</b>estrelas</div><div><b>${prof.dailyCount}</b>desafios do dia</div><div><b>${curStreak()}</b>sequência atual</div><div><b>${prof.bestStreak}</b>melhor sequência</div><div><b>${prof.nohint}</b>sem dicas</div>`);
+  set('prof-best',['facil','medio','dificil'].map(k=>`<div><b>${prof.best[k]!=null?fmt(prof.best[k]):'—'}</b>${DIFFS[k].label}</div>`).join(''));
+  set('prof-seals',SEALS.map(S=>sealHTML(S,prof.seals.includes(S.id))).join(''));
+  $('seal-count').textContent=`(${prof.seals.length}/${SEALS.length})`;
+  $('prof-reset').textContent='Apagar meu progresso'; resetArmed=false;
+  $('profile-modal').classList.add('open'); $('prof-close').focus();
+}
+let resetArmed=false;
+function closeProfile(){ $('profile-modal').classList.remove('open'); resetArmed=false; }
+function resetProfile(){
+  if(!resetArmed){ resetArmed=true; $('prof-reset').textContent='Clique de novo para confirmar'; return; }
+  prof=newProf(); saveProf(); totalStars=0; wins=0; refreshHUD(); openProfile(); toast('Progresso apagado.');
+}
+
+/* ---------- Comemoração de vitória ---------- */
+function bigCelebration(stars){
+  document.querySelectorAll('.xw-grid .cell.letter').forEach(el=>{
+    const r=+el.dataset.r||0, c=+el.dataset.c||0;
+    el.style.animationDelay=((r+c)*45)+'ms'; el.classList.remove('flip'); el.classList.add('wave');
+    setTimeout(()=>{ el.classList.remove('wave'); el.style.animationDelay=''; },2600);
+  });
+  if(typeof confetti!=='function') return;
+  const gold=['#f5c542','#e8a317','#c0392b','#2e7d32','#fff6d0'];
+  const shots=[[0,{particleCount:90,spread:75,origin:{y:.6}}],
+    [350,{particleCount:55,angle:60,spread:60,origin:{x:0,y:.7}}],[350,{particleCount:55,angle:120,spread:60,origin:{x:1,y:.7}}],
+    [900,{particleCount:70,spread:100,startVelocity:38,origin:{y:.5}}],
+    [1400,{particleCount:40*stars,spread:120,gravity:.7,scalar:1.2,origin:{y:.35}}]];
+  shots.forEach(([t,o])=>setTimeout(()=>{ if(won) confetti(Object.assign({colors:gold,disableForReducedMotion:true},o)); },t));
+}
+function fillWinModal(stars,res){
+  const T={3:['Perfeito!','🏆','Sem dicas e dentro do tempo. Impecável!'],2:['Muito bem!','🥈','Boa partida, quase perfeita.'],1:['Parabéns!','📘','Cruzada completada. Dá para melhorar o tempo!']}[stars];
+  $('win-title').textContent=puzzle.daily&&res.firstDaily?'Desafio do dia cumprido!':T[0];
+  $('win-emoji').textContent=T[1]; $('win-sub').textContent=T[2];
+  $('win-time').textContent=fmt(secs); $('win-stars').textContent='⭐'.repeat(stars); $('win-score').textContent=score;
+  $('win-xp').textContent='+'+res.xp+' XP';
+  const a=res.after;
+  $('win-xpfill').style.width=res.before.pct+'%';
+  setTimeout(()=>{ $('win-xpfill').style.width=a.pct+'%'; },80);
+  $('win-rank').textContent=a.next?`${a.name} · faltam ${a.next-prof.xp} XP para ${RANKS[a.i+1][1]}`:`${a.name} · nível máximo!`;
+  $('win-rankup').innerHTML=res.rankUp?`<div class="rankup">⬆ Novo nível: ${a.name}</div>`:'';
+  let ex='';
+  if(res.streakMsg) ex+=`<div class="row">${res.streakMsg}</div>`;
+  if(prof.best[puzzle.diff]===secs&&prof.wins>1) ex+=`<div class="row">⏱ Novo recorde pessoal em ${DIFFS[puzzle.diff].label}!</div>`;
+  res.seals.forEach(S=>{ ex+=`<div class="row">${S.e} <b>Selo novo:</b> ${S.n} — ${S.d}</div>`; });
+  $('win-extra').innerHTML=ex;
+  lastShare=shareText(stars);
+}
+let lastShare='';
+function shareText(stars){
+  const tag=puzzle.daily?`Desafio do dia ${puzzle.dailyDate.split('-').reverse().join('/')}`:`${puzzle.themeLabel} · ${DIFFS[puzzle.diff].label}`;
+  let t=`✏️ Palavras Cruzadas — Telas do Passado\n${tag}\n${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}  ⏱ ${fmt(secs)}  💡 ${hints} dica${hints===1?'':'s'}`;
+  if(puzzle.daily&&curStreak()>1) t+=`\n🔥 ${curStreak()} dias seguidos`;
+  if(/^https?:/.test(location.href)) t+='\n'+location.href;
+  return t;
+}
+async function doShare(){
+  const text=lastShare; if(!text) return;
+  try{ if(navigator.share){ await navigator.share({text}); return; } }catch(e){ if(e&&e.name==='AbortError') return; }
+  try{ await navigator.clipboard.writeText(text); toast('Resultado copiado! Cole onde quiser.'); return; }catch(e){}
+  try{ const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('Resultado copiado!'); }
+  catch(e){ toast('Não consegui copiar. Tire um print!'); }
+}
+
 /* ---------- Novo jogo ---------- */
-function newGame(){
-  const themeKey=$('theme-select').value, diffKey=$('diff-select').value;
-  store.set('theme',themeKey); store.set('diff',diffKey);
+function newGame(opts){
+  opts=(opts&&opts.daily)?opts:{};
+  let themeKey=$('theme-select').value, diffKey=$('diff-select').value, seed=null, dayKey=null;
+  if(opts.daily){ dayKey=todayStr(); const dc=dailyConfig(dayKey); themeKey=dc.theme; diffKey=dc.diff; seed=dc.seed; }
+  else{ store.set('theme',themeKey); store.set('diff',diffKey); }
   clearTimeout(winT);
-  puzzle=buildPuzzle(themeKey,diffKey);
-  puzzle.diff=diffKey;
+  puzzle=buildPuzzle(themeKey,diffKey,seed);
+  puzzle.diff=diffKey; puzzle.daily=!!opts.daily; puzzle.dailyDate=dayKey; puzzle.themeKey=themeKey==='all'?null:themeKey;
   cells=Array.from({length:puzzle.rows},()=>Array(puzzle.cols).fill(null));
   puzzle.words.forEach(w=>{
     w.cells=[];
@@ -601,9 +905,10 @@ function newGame(){
 
   solved=new Set(); hints=0; secs=0; score=0; won=false; sel={r:-1,c:-1};
   $('score').textContent='0'; $('timer').textContent='00:00';
-  $('badge-theme').textContent=puzzle.themeLabel; $('badge-diff').textContent=DIFFS[diffKey].label;
-  $('win-modal').classList.remove('open');
-  $('edition').textContent='Edição de '+new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})+' · Nº '+(wins+1);
+  $('badge-theme').textContent=puzzle.themeLabel; $('badge-diff').textContent=DIFFS[diffKey].label; $('badge-daily').hidden=!puzzle.daily;
+  $('win-modal').classList.remove('open'); closeProfile();
+  $('edition').textContent=puzzle.daily?('Desafio do dia · '+dayKey.split('-').reverse().join('/')):('Edição de '+new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'})+' · Nº '+(wins+1));
+  refreshHUD();
 
   renderGrid(); renderClues(); fitGrid(); updateProgress();
   clearInterval(timerId);
@@ -618,7 +923,7 @@ function renderGrid(){
     const cell=cells[r][c], el=document.createElement('div');
     if(!cell){ el.className='cell block'; el.setAttribute('aria-hidden','true'); }
     else{
-      el.className='cell letter'; cell.el=el; el.setAttribute('role','button'); el.tabIndex=-1; labelCell(cell);
+      el.className='cell letter'; el.dataset.r=r; el.dataset.c=c; cell.el=el; el.setAttribute('role','button'); el.tabIndex=-1; labelCell(cell);
       if(cell.num){ const n=document.createElement('span'); n.className='num'; n.textContent=cell.num; el.appendChild(n); }
       const ch=document.createElement('span'); ch.className='ch'; el.appendChild(ch);
       el.addEventListener('pointerdown',e=>{ e.preventDefault(); initAudio(); });
@@ -766,15 +1071,16 @@ function checkWin(){
   won=true; clearInterval(timerId); playSound('win');
   const par=DIFFS[puzzle.diff].par;
   const stars = (hints===0&&secs<=par)?3 : (hints<=3&&secs<=par*2)?2 : 1;
-  totalStars+=stars; wins++; store.set('stars',totalStars); store.set('wins',wins);
-  $('total-stars').textContent=totalStars;
-  $('win-time').textContent=fmt(secs); $('win-stars').textContent='⭐'.repeat(stars); $('win-score').textContent=score;
+  const res=awardWin(stars);
+  refreshHUD(); pulse('stat-score');
+  fillWinModal(stars,res);
   clearTimeout(winT);
+  bigCelebration(stars);
   winT=setTimeout(()=>{
     if(!won) return;
-    $('win-modal').classList.add('open');
-    if(typeof confetti==='function'){ confetti({particleCount:90,spread:70,origin:{y:.6}}); setTimeout(()=>confetti({particleCount:50,angle:60,spread:60,origin:{x:0,y:.7}}),250); setTimeout(()=>confetti({particleCount:50,angle:120,spread:60,origin:{x:1,y:.7}}),250); }
-  },700);
+    $('win-modal').classList.add('open'); $('btn-again').focus();
+    playSound('rank');
+  },1500);
   return true;
 }
 
@@ -819,7 +1125,11 @@ function moveArrow(dr,dc){
 }
 function onKey(e){
   if(!puzzle||e.ctrlKey||e.metaKey||e.altKey) return;
-  if($('win-modal').classList.contains('open')){ if(e.key==='Enter'){ e.preventDefault(); newGame(); } return; }
+  if($('profile-modal').classList.contains('open')){ if(e.key==='Escape'){ e.preventDefault(); closeProfile(); } return; }
+  if($('win-modal').classList.contains('open')){
+    if(e.key==='Escape'){ e.preventDefault(); $('win-modal').classList.remove('open'); return; }
+    if(e.key==='Enter'&&document.activeElement.tagName!=='BUTTON'){ e.preventDefault(); newGame(); }
+    return; }
   const tag=document.activeElement.tagName;
   if(/^(SELECT|INPUT|TEXTAREA)$/.test(tag)) return;
   const onBtn = tag==='BUTTON';   // botão focado: Enter/Espaço devem acioná-lo
@@ -882,9 +1192,9 @@ function buildKeyboard(){
 
 /* ---------- Inicialização ---------- */
 window.addEventListener('DOMContentLoaded',()=>{
-  totalStars=parseInt(store.get('stars','0'),10)||0; wins=parseInt(store.get('wins','0'),10)||0;
+  loadProf();
   soundOn=store.get('sound','true')==='true';
-  $('total-stars').textContent=totalStars;
+  refreshHUD();
   $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark';
   $('theme-select').value=store.get('theme','all'); $('diff-select').value=store.get('diff','medio');
   if(!$('theme-select').value) $('theme-select').value='all';
@@ -894,7 +1204,14 @@ window.addEventListener('DOMContentLoaded',()=>{
   $('btn-new').addEventListener('click',()=>{initAudio();newGame();});
   $('theme-select').addEventListener('change',e=>{e.target.blur();newGame();});
   $('diff-select').addEventListener('change',e=>{e.target.blur();newGame();});
-  $('btn-again').addEventListener('click',newGame);
+  $('btn-again').addEventListener('click',()=>newGame());
+  $('btn-daily').addEventListener('click',()=>{ initAudio(); newGame({daily:true}); });
+  $('btn-profile').addEventListener('click',openProfile);
+  $('prof-close').addEventListener('click',closeProfile);
+  $('prof-reset').addEventListener('click',resetProfile);
+  $('btn-share').addEventListener('click',doShare);
+  $('profile-modal').addEventListener('click',e=>{ if(e.target.id==='profile-modal') closeProfile(); });
+  $('win-modal').addEventListener('click',e=>{ if(e.target.id==='win-modal') $('win-modal').classList.remove('open'); });
   $('btn-sound').addEventListener('click',()=>{ soundOn=!soundOn; store.set('sound',soundOn); $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'; initAudio(); });
   $('btn-kbd').addEventListener('click',()=>$('virtual-keyboard').classList.toggle('show'));
   $('btn-print').addEventListener('click',()=>window.print());
