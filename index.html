@@ -124,6 +124,17 @@ body{
 .cell .ch{transform:translateY(-6%)}
 .cell.hl{background:var(--hl-soft)}
 .cell.sel{background:var(--hl);box-shadow:inset 0 0 0 2px var(--ink)}
+.cell.xw{background:repeating-linear-gradient(135deg,#f3e9c0 0 5px,#e8dcae 5px 7px)}
+.cell.sel::after{position:absolute;color:var(--red);font-size:calc(var(--cs)*.34);line-height:1;pointer-events:none;text-shadow:none;animation:nudge 1s ease-in-out infinite}
+.cell.sel[data-dir=across]::after{content:"▶";right:1px;top:50%;margin-top:calc(var(--cs)*-.17)}
+.cell.sel[data-dir=down]::after{content:"▼";bottom:0;left:50%;margin-left:calc(var(--cs)*-.17);animation-name:nudge-d}
+@keyframes nudge{50%{transform:translateX(2px)}}
+@keyframes nudge-d{50%{transform:translateY(2px)}}
+.dir-btn{margin-top:5px;padding:2px 9px;font:700 11px 'Special Elite',monospace;letter-spacing:.06em;background:var(--ink);color:var(--hl);border:0;cursor:pointer}
+.dir-btn:hover{background:var(--red);color:#fff}
+.dir-btn:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.clue-bar[data-dir=across]{border-left:8px solid var(--red)}
+.clue-bar[data-dir=down]{border-left:8px solid var(--ink)}
 .cell.ok{background:var(--ok-bg);color:#1f4d2b}
 .cell.err{background:var(--err-bg);color:var(--err);animation:shake .3s}
 .cell.rev{color:var(--red)}
@@ -297,6 +308,7 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
         <div id="active-clue-title" class="clue-tag">Pista</div>
         <p id="active-clue-text">Toque numa casa para começar</p>
         <div id="pattern"></div>
+        <button id="btn-dir" class="dir-btn" hidden></button>
       </div>
       <button id="btn-next" class="btn nav-btn" aria-label="Próxima pista"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
@@ -967,10 +979,15 @@ function selectCell(r,c,dir,quiet){
 }
 
 function paintSelection(){
-  document.querySelectorAll('.cell.hl,.cell.sel').forEach(e=>e.classList.remove('hl','sel'));
+  document.querySelectorAll('.cell.hl,.cell.sel,.cell.xw').forEach(e=>e.classList.remove('hl','sel','xw'));
   if(!activeWord) return;
   activeWord.cells.forEach(c=>c.el.classList.add('hl'));
-  cells[sel.r][sel.c].el.classList.add('sel');
+  const cur=cells[sel.r][sel.c], other=activeWord.dir==='across'?cur.wD:cur.wA;
+  if(other) other.cells.forEach(c=>{ if(c!==cur) c.el.classList.add('xw'); });
+  cur.el.classList.add('sel'); cur.el.dataset.dir=activeWord.dir;
+  const cb=document.querySelector('.clue-bar'); if(cb) cb.dataset.dir=activeWord.dir;
+  const db=$('btn-dir');
+  if(db){ db.hidden=!other; if(other) db.textContent=`Escrevendo ${activeWord.dir==='across'?'→ na horizontal':'↓ na vertical'} · trocar ⇄`; }
   document.querySelectorAll('.cell[aria-current]').forEach(e=>{e.removeAttribute('aria-current');e.tabIndex=-1;});
   cells[sel.r][sel.c].el.tabIndex=0;
   cells[sel.r][sel.c].el.setAttribute('aria-current','true');
@@ -1215,6 +1232,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   $('btn-sound').addEventListener('click',()=>{ soundOn=!soundOn; store.set('sound',soundOn); $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'; initAudio(); });
   $('btn-kbd').addEventListener('click',()=>$('virtual-keyboard').classList.toggle('show'));
   $('btn-print').addEventListener('click',()=>window.print());
+  $('btn-dir').addEventListener('click',()=>{ if(sel.r>=0) selectCell(sel.r,sel.c,curDir==='across'?'down':'across',true); });
   $('btn-check').addEventListener('click',checkAnswers);
   $('btn-hint').addEventListener('click',()=>{initAudio();hintLetter();});
   $('btn-word').addEventListener('click',()=>{initAudio();hintWord();});
