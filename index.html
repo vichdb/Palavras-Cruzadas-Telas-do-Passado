@@ -6,9 +6,6 @@
 <title>Palavras Cruzadas — Telas do Passado</title>
 <meta name="author" content="Telas do Passado">
 <meta name="application-name" content="Palavras Cruzadas · Telas do Passado">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:wght@400;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap" rel="stylesheet">
 <style>
@@ -91,7 +88,8 @@ body{
 .chips{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .chip{padding:2px 9px;background:var(--ink);color:var(--sheet);font:700 11px 'Special Elite',monospace;letter-spacing:.1em;text-transform:uppercase}
 .stat{display:flex;align-items:center;gap:6px;font-weight:700}
-.stat i{opacity:.75}
+.stat .ic{opacity:.75}
+.ic{width:1.05em;height:1.05em;vertical-align:-.15em;flex:none}
 .stat.pulse{animation:pulse .5s}
 @keyframes pulse{40%{transform:scale(1.25)}}
 .progress{width:100%;max-width:720px;height:16px;border:2px solid var(--ink);background:var(--sheet-2);position:relative;overflow:hidden}
@@ -245,10 +243,11 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-pencil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></symbol><symbol id="i-calendar-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></symbol><symbol id="i-arrows-rotate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-15.5 6.3M3 12A9 9 0 0118.5 5.7M21 4v5h-5M3 20v-5h5"/></symbol><symbol id="i-volume-high" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4zM15.5 8.5a5 5 0 010 7M19 5a10 10 0 010 14"/></symbol><symbol id="i-volume-xmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4zM22 9l-6 6M16 9l6 6"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol><symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V2H6.5A2.5 2.5 0 004 4.5z"/></symbol><symbol id="i-fire" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 002.5 2.5z"/></symbol><symbol id="i-feather-pointed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 12.2a6 6 0 00-8.5-8.5L5 10.5V19h8.5zM16 8L2 22M17.5 15H9"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></symbol><symbol id="i-microphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></symbol><symbol id="i-lightbulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0012 2z"/></symbol><symbol id="i-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></symbol><symbol id="i-eraser" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 21l-4.3-4.3a2.4 2.4 0 010-3.4l9.6-9.6a2.4 2.4 0 013.4 0l5.6 5.6a2.4 2.4 0 010 3.4L13 21M22 21H7M5 11l9 9"/></symbol><symbol id="i-share-nodes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></symbol><symbol id="i-delete-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5H9l-7 7 7 7h11a2 2 0 002-2V7a2 2 0 00-2-2zM18 9l-6 6M12 9l6 6"/></symbol><symbol id="i-arrows-up-down-left-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></symbol><symbol id="i-forward" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l10 8-10 8zM19 5v14"/></symbol></defs></svg>
 <header class="masthead">
   <div class="masthead-in">
     <div class="brand">
-      <div class="logo"><i class="fa-solid fa-pencil"></i></div>
+      <div class="logo"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></div>
       <div>
         <div class="presents">Telas do Passado apresenta</div>
         <h1>PALAVRAS CRUZADAS</h1>
@@ -268,17 +267,18 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
         <option value="esportes">⚽ Esportes</option>
         <option value="ciencia">🔬 Ciência e Natureza</option>
         <option value="cultura">🪇 Cultura Brasileira</option>
+        <option value="terror">🧛 Terror Clássico</option>
       </select>
       <select id="diff-select" class="pick" aria-label="Dificuldade">
         <option value="facil">🌱 Fácil</option>
         <option value="medio" selected>⚡ Médio</option>
         <option value="dificil">🔥 Difícil</option>
       </select>
-      <button id="btn-daily" class="btn" title="Desafio do dia: o mesmo para todo mundo"><i class="fa-regular fa-calendar-check"></i> Desafio do dia<span id="daily-dot" class="dot" aria-hidden="true"></span></button>
-      <button id="btn-new" class="btn primary"><i class="fa-solid fa-arrows-rotate"></i> Novo jogo</button>
-      <button id="btn-sound" class="btn" title="Som"><i id="sound-icon" class="fa-solid fa-volume-high"></i></button>
-      <button id="btn-kbd" class="btn" title="Teclado na tela"><i class="fa-regular fa-keyboard"></i></button>
-      <button id="btn-print" class="btn" title="Imprimir"><i class="fa-solid fa-print"></i></button>
+      <button id="btn-daily" class="btn" title="Desafio do dia: o mesmo para todo mundo"><svg class="ic" aria-hidden="true"><use href="#i-calendar-check"/></svg> Desafio do dia<span id="daily-dot" class="dot" aria-hidden="true"></span></button>
+      <button id="btn-new" class="btn primary"><svg class="ic" aria-hidden="true"><use href="#i-arrows-rotate"/></svg> Novo jogo</button>
+      <button id="btn-sound" class="btn" aria-label="Som ligado ou desligado" title="Som"><svg class="ic" id="sound-icon" aria-hidden="true"><use href="#i-volume-high"/></svg></button>
+      <button id="btn-kbd" class="btn" aria-label="Mostrar ou esconder teclado na tela" title="Teclado na tela"><svg class="ic" aria-hidden="true"><use href="#i-keyboard"/></svg></button>
+      <button id="btn-print" class="btn" aria-label="Imprimir" title="Imprimir"><svg class="ic" aria-hidden="true"><use href="#i-print"/></svg></button>
     </div>
   </div>
 </header>
@@ -292,35 +292,35 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
         <span id="badge-daily" class="chip daily" hidden>Desafio do dia</span>
       </div>
       <div class="chips">
-        <button id="btn-profile" class="chip" title="Meu caderno: nível, selos e estatísticas"><i class="fa-solid fa-book"></i> <span id="rank-name">Estagiário</span></button>
-        <span class="stat" id="stat-streak" title="Sequência de desafios diários"><i class="fa-solid fa-fire"></i><span id="streak">0</span></span>
-        <span class="stat" id="stat-score" title="Pontos"><i class="fa-solid fa-feather-pointed"></i><span id="score">0</span></span>
-        <span class="stat" title="Estrelas acumuladas"><i class="fa-solid fa-star"></i><span id="total-stars">0</span></span>
-        <span class="stat" title="Tempo"><i class="fa-regular fa-clock"></i><span id="timer">00:00</span></span>
+        <button id="btn-profile" class="chip" title="Meu caderno: nível, selos e estatísticas"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg> <span id="rank-name">Estagiário</span></button>
+        <span class="stat" id="stat-streak" title="Sequência de desafios diários"><svg class="ic" aria-hidden="true"><use href="#i-fire"/></svg><span id="streak">0</span></span>
+        <span class="stat" id="stat-score" title="Pontos"><svg class="ic" aria-hidden="true"><use href="#i-feather-pointed"/></svg><span id="score">0</span></span>
+        <span class="stat" title="Estrelas acumuladas"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><span id="total-stars">0</span></span>
+        <span class="stat" title="Tempo"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span id="timer">00:00</span></span>
       </div>
     </div>
 
     <div class="progress" aria-label="Progresso"><div id="progress-fill"></div><div id="progress-text">0 / 0 PALAVRAS</div></div>
 
     <div class="clue-bar paper">
-      <button id="btn-prev" class="btn nav-btn" aria-label="Pista anterior"><i class="fa-solid fa-chevron-left"></i></button>
+      <button id="btn-prev" class="btn nav-btn" aria-label="Pista anterior"><svg class="ic" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
       <div class="clue-main" aria-live="polite">
         <div id="active-clue-title" class="clue-tag">Pista</div>
         <p id="active-clue-text">Toque numa casa para começar</p>
         <div id="pattern"></div>
         <button id="btn-dir" class="dir-btn" hidden></button>
       </div>
-      <button id="btn-next" class="btn nav-btn" aria-label="Próxima pista"><i class="fa-solid fa-chevron-right"></i></button>
+      <button id="btn-next" class="btn nav-btn" aria-label="Próxima pista"><svg class="ic" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
     </div>
 
     <div id="grid-container" role="group" aria-label="Tabuleiro de palavras cruzadas"></div>
 
     <div class="actions">
-      <button id="btn-mic" class="btn"><i class="fa-solid fa-microphone"></i> <span id="mic-label">Falar</span></button>
-      <button id="btn-check" class="btn"><i class="fa-solid fa-check"></i> Conferir</button>
-      <button id="btn-hint" class="btn"><i class="fa-solid fa-lightbulb"></i> Letra</button>
-      <button id="btn-word" class="btn"><i class="fa-solid fa-book-open"></i> Palavra</button>
-      <button id="btn-clear" class="btn"><i class="fa-solid fa-eraser"></i> Borracha</button>
+      <button id="btn-mic" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-microphone"/></svg> <span id="mic-label">Falar</span></button>
+      <button id="btn-check" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg> Conferir</button>
+      <button id="btn-hint" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-lightbulb"/></svg> Letra</button>
+      <button id="btn-word" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-book-open"/></svg> Palavra</button>
+      <button id="btn-clear" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-eraser"/></svg> Borracha</button>
     </div>
 
     <div id="virtual-keyboard" class="paper" aria-label="Teclado"></div>
@@ -362,7 +362,7 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
     <div id="win-rankup"></div>
     <div class="win-extra" id="win-extra"></div>
     <div class="btn-row">
-      <button id="btn-share" class="btn"><i class="fa-solid fa-share-nodes"></i> Compartilhar</button>
+      <button id="btn-share" class="btn"><svg class="ic" aria-hidden="true"><use href="#i-share-nodes"/></svg> Compartilhar</button>
       <button id="btn-again" class="btn primary">Próximo desafio</button>
     </div>
     <p class="tw" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin:12px 0 0;color:var(--ink-soft)">Telas do Passado</p>
@@ -386,168 +386,589 @@ button.chip:focus-visible,.seal:focus-visible{outline:3px solid var(--red);outli
   </div>
 </div>
 
+<script type="application/json" id="temas-data">
+{
+ "cinema": {
+  "label": "Cinema",
+  "words": [
+   "OSCAR|Estatueta dourada, maior prêmio de Hollywood",
+   "ROTEIRO|Texto com falas e cenas de um filme",
+   "DIRETOR|Quem comanda as filmagens",
+   "ATOR|Interpreta personagens na tela",
+   "ATRIZ|Intérprete feminina de um papel",
+   "CENA|Trecho de filme gravado de uma vez",
+   "PIPOCA|Petisco clássico das sessões de cinema",
+   "TELA|Onde o filme é projetado",
+   "FILME|Obra exibida no cinema",
+   "SESSAO|Horário de exibição de um filme",
+   "TRAILER|Prévia curta de um filme que vai estrear",
+   "COMEDIA|Gênero que busca fazer o público rir",
+   "TERROR|Gênero feito para dar medo",
+   "CLAQUETE|Placa que marca o início de cada tomada",
+   "ESTUDIO|Local onde se produzem filmes",
+   "CAMERA|Equipamento que registra as imagens",
+   "PLATEIA|Público sentado na sala",
+   "ESTREIA|Primeira exibição de um filme",
+   "ELENCO|Conjunto dos atores de uma produção",
+   "LEGENDA|Texto traduzido que aparece na tela",
+   "CENARIO|Ambiente montado para as filmagens",
+   "FIGURINO|Roupas usadas pelos personagens",
+   "ANIMACAO|Filme feito de desenhos ou bonecos",
+   "TITANIC|Filme do romance a bordo de um navio que afundou",
+   "AVATAR|Filme de James Cameron ambientado em Pandora",
+   "HEROI|Protagonista corajoso da aventura",
+   "VILAO|Antagonista da história",
+   "PREMIERE|Estreia solene com convidados",
+   "SUSPENSE|Gênero que prende a respiração",
+   "MUSICAL|Filme em que se canta e se dança",
+   "FICCAO|Gênero de mundos imaginários e futuro",
+   "PRODUTOR|Quem cuida do dinheiro e da organização do filme",
+   "EDICAO|Montagem final das cenas",
+   "TELONA|Tela grande do cinema",
+   "CORTE|Grito do diretor ao fim da cena",
+   "CLASSICO|Filme antigo que marcou época",
+   "BILHETERIA|Onde se compra o ingresso",
+   "INGRESSO|Papel que dá entrada na sessão",
+   "ROTEIRISTA|Autor do texto de um filme",
+   "TRILHA|___ sonora: músicas de um filme",
+   "TELAO|Superfície onde o filme é projetado",
+   "PROJETOR|Máquina que lança a imagem no telão",
+   "COADJUVANTE|Ator de papel secundário",
+   "SEQUENCIA|Filme que continua a história de outro",
+   "MUDO|Tipo de filme sem falas gravadas, comum no começo do cinema"
+  ]
+ },
+ "geografia": {
+  "label": "Geografia",
+  "words": [
+   "BRASIL|Maior país da América do Sul",
+   "LIMA|Capital do Peru",
+   "ROMA|Capital da Itália",
+   "PARIS|Capital da França",
+   "LISBOA|Capital de Portugal",
+   "TOQUIO|Capital do Japão",
+   "CAIRO|Capital do Egito",
+   "BERLIM|Capital da Alemanha",
+   "MADRI|Capital da Espanha",
+   "QUITO|Capital do Equador",
+   "BOGOTA|Capital da Colômbia",
+   "OCEANO|Atlântico, Pacífico e Índico",
+   "DESERTO|Região árida, como o Saara",
+   "AMAZONAS|Maior estado brasileiro em área",
+   "SERGIPE|Menor estado do Brasil",
+   "ILHA|Terra cercada de água por todos os lados",
+   "MONTANHA|Grande elevação de terreno",
+   "VULCAO|Montanha que expele lava",
+   "CONTINENTE|Grande massa de terra, como a Ásia",
+   "EQUADOR|Linha imaginária que divide a Terra ao meio",
+   "PLANALTO|Terreno elevado e relativamente plano",
+   "LAGO|Extensão de água cercada de terra",
+   "CHILE|País andino de formato comprido",
+   "JAPAO|País do sol nascente",
+   "INDIA|País do Taj Mahal",
+   "CANADA|País da folha de bordo na bandeira",
+   "ARGENTINA|País vizinho do Brasil, famoso pelo tango",
+   "EUROPA|Continente de Portugal e França",
+   "AFRICA|Continente do Egito e do Quênia",
+   "PERU|País de Machu Picchu",
+   "FLORESTA|Grande área coberta de árvores",
+   "BOLIVIA|País sem litoral da América do Sul",
+   "URUGUAI|País vizinho ao sul do Rio Grande do Sul",
+   "PARAGUAI|País vizinho com capital em Assunção",
+   "ITALIA|País em forma de bota",
+   "ASIA|Maior continente do planeta",
+   "OCEANIA|Continente da Austrália",
+   "POLO|Extremo norte ou sul da Terra",
+   "MAPA|Representação do território no papel",
+   "BUSSOLA|Instrumento cuja agulha aponta o norte",
+   "PANTANAL|Maior planície alagável do mundo",
+   "CERRADO|Bioma de árvores retorcidas do Brasil central",
+   "CAATINGA|Bioma exclusivo do Brasil, no sertão nordestino",
+   "AMAZONIA|Maior floresta tropical do mundo",
+   "CATARATAS|Quedas de água de Foz do Iguaçu",
+   "SAARA|Maior deserto quente do mundo",
+   "BAHIA|Estado brasileiro de Salvador",
+   "MINAS|Estado de Belo Horizonte e do pão de queijo"
+  ]
+ },
+ "historia": {
+  "label": "História",
+  "words": [
+   "CABRAL|Navegador que chegou ao Brasil em 1500",
+   "CESAR|Júlio ___, ditador romano",
+   "NAPOLEAO|Imperador francês derrotado em Waterloo",
+   "CLEOPATRA|Última rainha do Egito antigo",
+   "PIRAMIDE|Túmulo monumental dos faraós",
+   "FARAO|Soberano do Egito antigo",
+   "REI|Soberano de um reino",
+   "RAINHA|Soberana de um reino",
+   "IMPERIO|Território governado por um imperador",
+   "REVOLUCAO|Grande transformação política ou social",
+   "TIRADENTES|Mártir da Inconfidência Mineira",
+   "ZUMBI|Líder do Quilombo dos Palmares",
+   "EINSTEIN|Físico da Teoria da Relatividade",
+   "NEWTON|Físico da lei da gravitação",
+   "COLOMBO|Navegador que chegou à América em 1492",
+   "GALILEU|Astrônomo que apontou a luneta para o céu",
+   "INCAS|Povo andino que construiu Machu Picchu",
+   "MAIAS|Povo mesoamericano de grandes astrônomos",
+   "GREGOS|Povo que criou a democracia e as Olimpíadas",
+   "VIKINGS|Navegadores guerreiros do norte da Europa",
+   "CASTELO|Fortaleza medieval de nobres",
+   "CAVALEIRO|Guerreiro medieval de armadura",
+   "REPUBLICA|Governo sem rei, proclamado em 1889",
+   "ABOLICAO|Fim da escravidão no Brasil, em 1888",
+   "MURALHA|Grande ___ da China",
+   "EGITO|Terra dos faraós e das pirâmides",
+   "MUMIA|Corpo embalsamado do Egito antigo",
+   "ATENAS|Berço da democracia grega",
+   "TROIA|Cidade do famoso cavalo de madeira",
+   "ESPARTA|Cidade grega de guerreiros famosos",
+   "GUERRA|Conflito armado entre nações",
+   "COLONIA|Território dominado por outro país",
+   "ESCRAVO|Pessoa forçada a trabalhar sem liberdade",
+   "DITADURA|Regime em que o poder se concentra em um só governante",
+   "IMPERADOR|Chefe supremo de um império",
+   "CRUZADAS|Expedições medievais cristãs à Terra Santa",
+   "FEUDALISMO|Sistema medieval de senhores e vassalos",
+   "ROMANOS|Povo que construiu um vasto império a partir de uma cidade italiana",
+   "ASTECAS|Povo mexicano da cidade de Tenochtitlán",
+   "TUTANCAMON|Faraó-menino de máscara de ouro",
+   "ESPARTACO|Gladiador que liderou uma revolta de escravos",
+   "DOMPEDRO|Proclamou a Independência às margens do Ipiranga",
+   "INQUISICAO|Tribunal religioso medieval que perseguia hereges",
+   "GUTENBERG|Inventor da imprensa de tipos móveis",
+   "MUSEU|Lugar que guarda objetos da história",
+   "ARQUEOLOGO|Estuda vestígios do passado",
+   "CARAVELA|Navio das Grandes Navegações",
+   "ESCRITA|Invenção que marcou o fim da Pré-História"
+  ]
+ },
+ "culinaria": {
+  "label": "Culinária",
+  "words": [
+   "PIZZA|Prato italiano redondo com queijo e molho",
+   "PAO|Alimento de farinha, água e fermento",
+   "AZEITE|Óleo extraído da azeitona",
+   "QUEIJO|Derivado do leite, como mussarela e minas",
+   "FEIJAO|Par perfeito do arroz no prato brasileiro",
+   "ARROZ|Grão branco servido com feijão",
+   "MACARRAO|Massa italiana comprida",
+   "LASANHA|Massa em camadas com molho e queijo",
+   "BOLO|Doce assado de aniversário",
+   "TEMPERO|Dá sabor à comida",
+   "PIMENTA|Deixa a comida ardida",
+   "CHURRASCO|Carne assada na brasa",
+   "SUSHI|Prato japonês de arroz temperado, geralmente com peixe",
+   "TAPIOCA|Beiju de goma de mandioca",
+   "BRIGADEIRO|Doce de leite condensado e chocolate",
+   "COXINHA|Salgado em formato de gota recheado de frango",
+   "PASTEL|Salgado frito vendido em feiras",
+   "FAROFA|Farinha torrada que acompanha a feijoada",
+   "MANDIOCA|Raiz também chamada aipim ou macaxeira",
+   "DOCE|Contrário de salgado",
+   "SOPA|Prato líquido servido quente",
+   "SALADA|Prato de folhas e legumes crus",
+   "CAFE|Bebida preta e quente que acorda o Brasil",
+   "LEITE|Líquido branco que vem da vaca",
+   "MEL|Alimento doce produzido pelas abelhas",
+   "OVO|Alimento que vem da galinha",
+   "FORNO|Eletrodoméstico que assa bolos",
+   "FEIJOADA|Prato de feijão preto com carnes",
+   "PAMONHA|Iguaria de milho verde cozida na palha",
+   "QUINDIM|Doce amarelo de gema e coco",
+   "CARNE|Alimento de boi, porco ou frango",
+   "PEIXE|Alimento tirado de rios e mares",
+   "BANANA|Fruta amarela de casca fácil de descascar",
+   "LARANJA|Fruta cítrica que dá suco",
+   "MANGA|Fruta tropical alaranjada e fibrosa",
+   "ABACAXI|Fruta de coroa espinhosa",
+   "ACAI|Fruta roxa do Norte, servida gelada",
+   "CHOCOLATE|Doce feito de cacau",
+   "SORVETE|Sobremesa gelada de casquinha",
+   "MILHO|Grão amarelo da pamonha",
+   "TOMATE|Fruto vermelho do molho",
+   "CEBOLA|Bulbo que faz chorar ao ser cortado",
+   "ALHO|Tempero de dentes e cheiro forte",
+   "MANTEIGA|Gordura do leite passada no pão",
+   "GELEIA|Doce de fruta para passar no pão",
+   "OMELETE|Prato de ovos batidos",
+   "VINAGRE|Tempero ácido para salada"
+  ]
+ },
+ "musica": {
+  "label": "Música",
+  "words": [
+   "GUITARRA|Instrumento elétrico de seis cordas",
+   "VIOLAO|Instrumento acústico de seis cordas",
+   "BATERIA|Conjunto de tambores e pratos",
+   "PIANO|Instrumento de teclas brancas e pretas",
+   "VIOLINO|Instrumento de cordas tocado com arco",
+   "FLAUTA|Instrumento de sopro fino e longo",
+   "SAMBA|Ritmo brasileiro do Carnaval",
+   "ROCK|Gênero de guitarras e muita energia",
+   "JAZZ|Gênero de improviso nascido em Nova Orleans",
+   "GOSPEL|Música cristã de louvor",
+   "ALBUM|Conjunto de músicas lançado em disco",
+   "RITMO|Marcação regular das batidas",
+   "MELODIA|Sequência de notas que forma a música",
+   "ACORDE|Notas tocadas juntas",
+   "NOTA|Dó, ré, mi... cada uma é uma ___ musical",
+   "CORO|Grupo que canta em conjunto",
+   "PALCO|Onde o artista se apresenta",
+   "BANDA|Grupo musical",
+   "CANTOR|Quem canta",
+   "TECLADO|Instrumento eletrônico de teclas",
+   "SAXOFONE|Sopro dourado, comum no jazz",
+   "TAMBOR|Instrumento de percussão de couro",
+   "HARPA|Instrumento de cordas dos anjos",
+   "FORRO|Ritmo nordestino de sanfona e zabumba",
+   "SANFONA|Instrumento de fole, também chamado acordeão",
+   "PAGODE|Ritmo derivado do samba",
+   "CAVAQUINHO|Pequeno instrumento de quatro cordas do samba",
+   "OPERA|Drama musical cantado no palco",
+   "ORQUESTRA|Grande grupo de músicos com maestro",
+   "MAESTRO|Quem rege a orquestra",
+   "REFRAO|Parte da música que se repete",
+   "LETRA|Texto cantado de uma canção",
+   "VOZ|Instrumento natural do cantor",
+   "CLARINETE|Instrumento de palheta de som aveludado",
+   "TROMPETE|Instrumento de metal de som brilhante",
+   "TRIANGULO|Instrumento de metal pequeno, comum no forró",
+   "ZABUMBA|Bumbo do forró",
+   "PANDEIRO|Instrumento de aro e platinelas, comum no samba",
+   "CUICA|Instrumento do samba que parece chorar",
+   "COMPOSITOR|Quem cria músicas",
+   "SERENATA|Música romântica cantada sob a janela",
+   "DISCO|Bolacha de vinil que gira na vitrola",
+   "VITROLA|Aparelho antigo que toca discos",
+   "FANFARRA|Banda de metais que anima desfiles"
+  ]
+ },
+ "animal": {
+  "label": "Reino Animal",
+  "words": [
+   "LEAO|Grande felino africano, o macho tem juba",
+   "LOBO|Canídeo que uiva para a lua",
+   "URSO|Mamífero grande que adora mel",
+   "TIGRE|Felino listrado da Ásia",
+   "ZEBRA|Parente do cavalo, listrada",
+   "GIRAFA|Animal de pescoço bem comprido",
+   "ELEFANTE|Maior animal terrestre, de tromba e presas",
+   "MACACO|Primata que adora banana",
+   "ONCA|Felino pintado das matas brasileiras",
+   "ARARA|Ave colorida que imita sons",
+   "TUCANO|Ave de bico grande e colorido",
+   "COBRA|Réptil sem patas",
+   "JACARE|Réptil de focinho largo, comum no Pantanal",
+   "GOLFINHO|Mamífero marinho muito inteligente",
+   "BALEIA|Maior mamífero do mar",
+   "TUBARAO|Peixe predador de barbatana dorsal",
+   "COELHO|Orelhudo que adora cenoura",
+   "GATO|Felino doméstico que mia",
+   "CAO|Melhor amigo do homem",
+   "CAVALO|Animal de montaria que relincha",
+   "GALINHA|Ave que põe ovos",
+   "PATO|Ave que faz \"quá\"",
+   "OVELHA|Fornece a lã",
+   "ABELHA|Inseto que produz mel",
+   "FORMIGA|Inseto trabalhador que vive em colônias",
+   "CORUJA|Ave noturna de olhos grandes",
+   "AGUIA|Ave de rapina de visão aguçada",
+   "PINGUIM|Ave que não voa e vive no gelo",
+   "CANGURU|Marsupial australiano que pula",
+   "TARTARUGA|Réptil de casco duro e vida longa",
+   "RATO|Roedor que o gato persegue",
+   "ARANHA|Aracnídeo de oito patas que tece teia",
+   "SAPO|Anfíbio que coaxa",
+   "PORCO|Animal da lama que faz oinc",
+   "VACA|Dá leite e muge",
+   "CABRA|Parente da ovelha que escala rochas",
+   "BORBOLETA|Inseto de asas coloridas, antes lagarta",
+   "PREGUICA|Animal lentíssimo que vive pendurado em árvores",
+   "CAPIVARA|Maior roedor do mundo",
+   "TAMANDUA|Come formigas com língua comprida",
+   "FLAMINGO|Ave rosada que dorme numa perna só",
+   "GAVIAO|Ave de rapina de garras afiadas",
+   "POLVO|Molusco de oito tentáculos",
+   "CARANGUEJO|Crustáceo que anda de lado",
+   "ESQUILO|Pequeno roedor que guarda nozes",
+   "RAPOSA|Animal astuto de cauda felpuda",
+   "CAMELO|Animal do deserto de corcovas",
+   "HIPOPOTAMO|Grande animal africano que vive na água",
+   "PAPAGAIO|Ave verde que repete palavras"
+  ]
+ },
+ "objetos": {
+  "label": "Dia a Dia",
+  "words": [
+   "CADEIRA|Móvel para sentar, com encosto",
+   "MESA|Móvel onde se fazem as refeições",
+   "CAMA|Onde se dorme",
+   "SOFA|Assento estofado da sala",
+   "JANELA|Abertura na parede que deixa entrar luz",
+   "PORTA|Fecha a entrada de um cômodo",
+   "CHAVE|Abre a fechadura",
+   "RELOGIO|Mostra as horas",
+   "LAMPADA|Ilumina o ambiente ao acender",
+   "GARFO|Talher de pontas",
+   "FACA|Talher que corta",
+   "COLHER|Talher para a sopa",
+   "PRATO|Onde se serve a comida",
+   "COPO|Recipiente para beber água",
+   "ESPELHO|Reflete a imagem de quem se olha",
+   "TELEFONE|Aparelho para fazer ligações",
+   "GELADEIRA|Conserva os alimentos frios",
+   "FOGAO|Eletrodoméstico com bocas para cozinhar",
+   "ESCOVA|Usada para pentear ou limpar os dentes",
+   "SABAO|Produto que faz espuma e limpa",
+   "TOALHA|Seca o corpo depois do banho",
+   "TAPETE|Peça que cobre o chão",
+   "VASSOURA|Varre a sujeira do chão",
+   "MOCHILA|Bolsa carregada nas costas",
+   "CARRO|Veículo de quatro rodas",
+   "BICICLETA|Veículo de duas rodas com pedais",
+   "LIVRO|Reúne páginas para ler",
+   "CANETA|Escreve com tinta",
+   "LAPIS|Escreve e pode ser apagado",
+   "CADERNO|Folhas pautadas encadernadas",
+   "BORRACHA|Apaga o que o lápis escreveu",
+   "ARMARIO|Móvel de portas para guardar roupas",
+   "GAVETA|Caixa deslizante de um móvel",
+   "CORTINA|Pano que cobre a janela",
+   "TRAVESSEIRO|Apoio macio para a cabeça",
+   "COBERTOR|Cobre a cama no frio",
+   "PANELA|Utensílio de cozinhar no fogo",
+   "TORNEIRA|Abre e fecha a água",
+   "CHUVEIRO|Dele cai a água no banho",
+   "SAPATO|Calçado fechado",
+   "CHINELO|Calçado aberto de praia",
+   "OCULOS|Ajudam a enxergar",
+   "CARTEIRA|Guarda dinheiro e documentos",
+   "VELA|Cera com pavio que ilumina",
+   "FOSFORO|Palito que acende com atrito",
+   "MARTELO|Ferramenta de bater pregos",
+   "TESOURA|Corta papel e tecido",
+   "ESCADA|Degraus para subir",
+   "ELEVADOR|Caixa que sobe e desce nos prédios",
+   "BALANCA|Mede o peso",
+   "TELEVISAO|Aparelho de imagem e som da sala",
+   "VENTILADOR|Refresca o ambiente com hélices",
+   "CAMPAINHA|Toca ao lado da porta",
+   "LANTERNA|Ilumina com pilhas"
+  ]
+ },
+ "esportes": {
+  "label": "Esportes",
+  "words": [
+   "FUTEBOL|Esporte mais popular do Brasil",
+   "GOL|Ponto marcado quando a bola entra na rede",
+   "BOLA|Objeto redondo perseguido em muitos jogos",
+   "TENIS|Esporte jogado com raquete e rede",
+   "BASQUETE|Esporte em que se arremessa a bola na cesta",
+   "VOLEI|Esporte de rede jogado com as mãos, em sets",
+   "NATACAO|Esporte praticado na piscina",
+   "ATLETISMO|Conjunto de corridas, saltos e arremessos",
+   "JUDO|Arte marcial japonesa de projeções",
+   "BOXE|Luta de punhos com luvas",
+   "MARATONA|Corrida de 42 quilômetros",
+   "OLIMPIADA|Maior competição esportiva do mundo",
+   "MEDALHA|Prêmio pendurado no pescoço do campeão",
+   "TROFEU|Taça entregue ao vencedor",
+   "JUIZ|Quem apita e aplica as regras",
+   "TORCIDA|Conjunto de fãs que apoia o time",
+   "CAMPEAO|Quem vence o torneio",
+   "ESTADIO|Local onde acontecem os jogos de futebol",
+   "PENALTI|Cobrança direta contra o goleiro, da marca de cal",
+   "GOLEIRO|Defende a meta do time",
+   "SURFE|Esporte de deslizar sobre as ondas",
+   "CICLISMO|Esporte de pedalar em competição",
+   "GINASTICA|Esporte de acrobacias e flexibilidade",
+   "SKATE|Prancha com rodas usada em manobras",
+   "RAQUETE|Instrumento usado no tênis",
+   "CESTA|Alvo do basquete",
+   "SAQUE|Lance que inicia o ponto no vôlei ou no tênis",
+   "PLACAR|Painel que mostra o resultado do jogo",
+   "CAMPO|Terreno de jogo do futebol",
+   "APITO|Instrumento sonoro do árbitro",
+   "BADMINTON|Esporte de raquete com peteca, jogado sobre a rede",
+   "CANOAGEM|Esporte de remar em pequenas embarcações",
+   "ESGRIMA|Luta com espadas leves e máscara",
+   "HANDEBOL|Esporte de equipe em que se lança a bola com as mãos ao gol",
+   "RUGBY|Esporte de bola oval e muito contato",
+   "BEISEBOL|Esporte americano de bastão e bola, com bases",
+   "GOLFE|Esporte de tacadas que busca acertar a bola em buracos",
+   "REMO|Esporte de impulsionar um barco com pás",
+   "SALTO|Prova de atletismo que busca altura ou distância",
+   "ARBITRO|Quem conduz e fiscaliza a partida",
+   "ZAGUEIRO|Jogador que defende a área",
+   "ATACANTE|Jogador que tenta fazer gols",
+   "LATERAL|Jogador que atua pelos lados do campo",
+   "DRIBLE|Jogada que engana o adversário",
+   "ESCANTEIO|Cobrança feita da bandeirinha do campo",
+   "TREINADOR|Quem prepara e comanda o time",
+   "CAMPEONATO|Competição com vários jogos e um campeão",
+   "FINAL|Jogo que decide o título",
+   "RECORDE|Marca melhor que todas as anteriores",
+   "PODIO|Plataforma onde sobem os três primeiros",
+   "HALTERE|Peso levantado por atletas",
+   "CORRIDA|Prova em que vence quem chega primeiro",
+   "TIEBREAK|Desempate disputado em um set de tênis"
+  ]
+ },
+ "ciencia": {
+  "label": "Ciência e Natureza",
+  "words": [
+   "ATOMO|Unidade básica da matéria",
+   "CELULA|Unidade básica dos seres vivos",
+   "OXIGENIO|Gás que respiramos",
+   "HIDROGENIO|Elemento mais leve e mais abundante do universo",
+   "PLANETA|Corpo que gira em torno de uma estrela",
+   "GRAVIDADE|Força que nos prende ao chão",
+   "LUA|Satélite natural da Terra",
+   "SOL|Estrela no centro do nosso sistema",
+   "ESTRELA|Corpo celeste que brilha com luz própria",
+   "GALAXIA|Imenso conjunto de estrelas, como a Via Láctea",
+   "CLOROFILA|Pigmento verde das plantas",
+   "DINOSSAURO|Réptil gigante extinto há milhões de anos",
+   "FOSSIL|Resto preservado de um ser vivo antigo",
+   "OSSO|Peça rígida do esqueleto",
+   "CORACAO|Órgão que bombeia o sangue",
+   "PULMAO|Órgão da respiração",
+   "CEREBRO|Órgão que comanda o corpo",
+   "VACINA|Prepara o corpo contra doenças",
+   "VIRUS|Microrganismo que só se multiplica dentro de células",
+   "BACTERIA|Ser microscópico de uma só célula",
+   "ENERGIA|Capacidade de realizar trabalho",
+   "RAIO|Descarga elétrica da tempestade",
+   "TROVAO|Barulho que vem depois do relâmpago",
+   "ARCOIRIS|Fenômeno colorido no céu depois da chuva",
+   "CLIMA|Condições do tempo ao longo dos anos",
+   "TERREMOTO|Tremor do solo",
+   "MICROSCOPIO|Aparelho que amplia o que é minúsculo",
+   "TELESCOPIO|Instrumento para ver astros distantes",
+   "MAR|Mediterrâneo, Vermelho e do Norte são exemplos",
+   "RIO|Curso de água que corre em direção ao mar",
+   "MOLECULA|Conjunto de átomos ligados",
+   "ELEMENTO|Substância simples da tabela periódica",
+   "ELETRON|Partícula de carga negativa do átomo",
+   "FOTOSSINTESE|Processo em que plantas produzem alimento com a luz",
+   "COMETA|Astro de cauda brilhante",
+   "ECLIPSE|Quando um astro encobre outro",
+   "ORBITA|Caminho de um corpo em volta de outro",
+   "GELEIRA|Grande massa de gelo que escorre lentamente",
+   "ATMOSFERA|Camada de ar que envolve a Terra",
+   "MAGNETISMO|Força de atração do ímã",
+   "ENZIMA|Proteína que acelera reações do corpo",
+   "NEURONIO|Célula do sistema nervoso",
+   "MUSCULO|Tecido que permite o movimento",
+   "HORMONIO|Mensageiro químico do corpo",
+   "GENE|Trecho do DNA que guarda uma instrução",
+   "EVOLUCAO|Mudança dos seres vivos ao longo do tempo",
+   "MINERAL|Substância sólida natural, como o quartzo",
+   "FOGUETE|Veículo que leva coisas ao espaço",
+   "SATELITE|Corpo que gira em torno de um planeta",
+   "TERMOMETRO|Aparelho que mede a temperatura"
+  ]
+ },
+ "cultura": {
+  "label": "Cultura Brasileira",
+  "words": [
+   "SACI|Moleque travesso de uma perna só e gorro vermelho",
+   "CURUPIRA|Protetor das matas, de pés virados para trás",
+   "IARA|Sereia do folclore brasileiro",
+   "BOITATA|Cobra de fogo do folclore",
+   "LOBISOMEM|Lenda do homem que vira bicho na lua cheia",
+   "CUCA|Bruxa com cara de jacaré do folclore",
+   "CARNAVAL|Festa de fantasias e desfiles antes da Quaresma",
+   "FREVO|Dança pernambucana de sombrinha colorida",
+   "MARACATU|Cortejo pernambucano de tambores e reis",
+   "CAPOEIRA|Luta e dança de origem africana",
+   "BERIMBAU|Instrumento de arco e cabaça da capoeira",
+   "JUNINA|Festa ___ com quadrilha e fogueira",
+   "QUADRILHA|Dança animada das festas de São João",
+   "SERTAO|Região do interior nordestino, de clima seco",
+   "CORDEL|Literatura em versos vendida em folhetos",
+   "REPENTE|Cantoria de improviso",
+   "CHORO|Gênero instrumental carioca de flauta e cavaquinho",
+   "ACARAJE|Bolinho baiano de feijão frito no dendê",
+   "BAIANA|Moça da Bahia, de saia rodada e turbante",
+   "AXE|Ritmo baiano nascido em Salvador",
+   "ARTESANATO|Trabalho feito à mão",
+   "CANGACEIRO|Bandoleiro nordestino do tempo de Lampião",
+   "LAMPIAO|Rei do Cangaço",
+   "BUMBA|___ meu boi, folguedo popular",
+   "CACHACA|Destilado de cana-de-açúcar",
+   "MANDACARU|Cacto típico do sertão",
+   "REDE|Tecido pendurado para descansar balançando",
+   "BOSSANOVA|Estilo musical suave nascido no Rio nos anos 50",
+   "VIOLA|Instrumento de cordas ligado à música caipira",
+   "CAIPIRA|Pessoa ou estilo do interior de São Paulo e Minas",
+   "GUARANA|Fruto amazônico, base de refrigerante e energético",
+   "CORCOVADO|Morro do Rio de Janeiro onde fica o Cristo Redentor",
+   "CANDOMBLE|Religião de matriz africana, com orixás",
+   "ORIXA|Divindade do candomblé",
+   "REPENTISTA|Cantador que improvisa versos",
+   "PIPA|Brinquedo de papel que voa preso a uma linha",
+   "ENGENHO|Antiga fazenda que produzia açúcar",
+   "JANGADA|Embarcação a vela típica do Nordeste",
+   "XOTE|Ritmo nordestino mais lento que o baião",
+   "BAIAO|Ritmo nordestino popularizado por Luiz Gonzaga"
+  ]
+ },
+ "terror": {
+  "label": "Terror Clássico",
+  "words": [
+   "DRACULA|Conde vampiro criado por Bram Stoker",
+   "VAMPIRO|Ser da noite que se alimenta de sangue",
+   "FRANKENSTEIN|Criatura montada com partes de corpos, criada por um cientista",
+   "MONSTRO|Criatura assustadora",
+   "FANTASMA|Espírito que assombra casas",
+   "ASSOMBRACAO|Aparição que vem do além",
+   "CAIXAO|Caixa onde se enterra um corpo",
+   "CEMITERIO|Lugar onde ficam os túmulos",
+   "TUMULO|Sepultura",
+   "MORCEGO|Mamífero voador símbolo dos vampiros",
+   "ESTACA|Pedaço de madeira que acaba com vampiros nas histórias",
+   "NEBLINA|Névoa baixa típica das cenas de suspense",
+   "TROVOADA|Tempestade de raios e trovões",
+   "LABORATORIO|Local de experimentos do cientista louco",
+   "CIENTISTA|Personagem que cria a criatura",
+   "MASCARA|Rosto falso usado por assassinos do cinema",
+   "ASSASSINO|Quem comete crimes nos filmes slasher",
+   "SUSTO|Reação de medo repentino",
+   "GRITO|Som agudo de terror",
+   "SOMBRA|Silhueta escura que assusta",
+   "PORAO|Parte baixa da casa, escura e úmida",
+   "MANSAO|Casa grande e antiga, cenário de mistérios",
+   "BRUXA|Mulher com poderes sobrenaturais, de chapéu pontudo",
+   "FEITICO|Magia lançada por bruxos",
+   "CAVEIRA|Crânio sem carne",
+   "ESQUELETO|Ossada de um corpo",
+   "POSSUIDO|Dominado por um espírito",
+   "EXORCISMO|Ritual para expulsar o demônio",
+   "DEMONIO|Ser maligno do inferno",
+   "VIDENTE|Quem diz prever o futuro",
+   "TEIA|Armadilha tecida pela aranha",
+   "GOTICO|Estilo sombrio de castelos e catedrais",
+   "NOSFERATU|Clássico vampiro do cinema mudo alemão de 1922",
+   "PSICOSE|Filme de Hitchcock com cena famosa no chuveiro",
+   "HITCHCOCK|Mestre do suspense no cinema",
+   "UNIVERSAL|Estúdio famoso pelos monstros clássicos dos anos 30",
+   "KARLOFF|Boris, ator que viveu o monstro de Frankenstein no cinema",
+   "CRIATURA|Ser estranho e assustador",
+   "MALDICAO|Praga lançada sobre alguém",
+   "LUGOSI|Bela, ator húngaro que fez o Conde Drácula no cinema"
+  ]
+ }
+}
+</script>
 <script>
 /*__GEN_START__*/
 /* =====================================================================
    BANCO DE PALAVRAS — formato "RESPOSTA|dica". Respostas sem acento.
    ===================================================================== */
-const THEMES = {
-  cinema: { label: 'Cinema', words: [
-    'OSCAR|Estatueta dourada, maior prêmio de Hollywood','ROTEIRO|Texto com falas e cenas de um filme',
-    'DIRETOR|Quem comanda as filmagens','ATOR|Interpreta personagens na tela','ATRIZ|Intérprete feminina de um papel',
-    'CENA|Trecho de filme gravado de uma vez','PIPOCA|Petisco clássico das sessões de cinema','TELA|Onde o filme é projetado',
-    'FILME|Obra exibida no cinema','SESSAO|Horário de exibição de um filme','TRAILER|Prévia curta de um filme que vai estrear',
-    'COMEDIA|Gênero que busca fazer o público rir','TERROR|Gênero feito para dar medo','CLAQUETE|Placa que marca o início de cada tomada',
-    'ESTUDIO|Local onde se produzem filmes','CAMERA|Equipamento que registra as imagens','PLATEIA|Público sentado na sala',
-    'ESTREIA|Primeira exibição de um filme','ELENCO|Conjunto dos atores de uma produção','LEGENDA|Texto traduzido que aparece na tela',
-    'CENARIO|Ambiente montado para as filmagens','FIGURINO|Roupas usadas pelos personagens','ANIMACAO|Filme feito de desenhos ou bonecos',
-    'TITANIC|Filme do romance a bordo de um navio que afundou','AVATAR|Filme de James Cameron ambientado em Pandora',
-    'HEROI|Protagonista corajoso da aventura','VILAO|Antagonista da história'] },
-  geografia: { label: 'Geografia', words: [
-    'BRASIL|Maior país da América do Sul','LIMA|Capital do Peru','ROMA|Capital da Itália','PARIS|Capital da França',
-    'LISBOA|Capital de Portugal','TOQUIO|Capital do Japão','CAIRO|Capital do Egito','BERLIM|Capital da Alemanha',
-    'MADRI|Capital da Espanha','QUITO|Capital do Equador','BOGOTA|Capital da Colômbia','OCEANO|Imensa massa de água salgada',
-    'DESERTO|Região árida, como o Saara','AMAZONAS|Maior estado brasileiro em área','SERGIPE|Menor estado do Brasil',
-    'ILHA|Terra cercada de água por todos os lados','MONTANHA|Grande elevação de terreno','VULCAO|Montanha que expele lava',
-    'CONTINENTE|Grande massa de terra, como a Ásia','EQUADOR|Linha imaginária que divide a Terra ao meio',
-    'PLANALTO|Terreno elevado e relativamente plano','LAGO|Extensão de água cercada de terra','CHILE|País andino de formato comprido',
-    'JAPAO|País do sol nascente','INDIA|País do Taj Mahal','CANADA|País da folha de bordo na bandeira',
-    'ARGENTINA|País vizinho do Brasil, famoso pelo tango','EUROPA|Continente de Portugal e França',
-    'AFRICA|Continente do Egito e do Quênia','PERU|País de Machu Picchu','FLORESTA|Grande área coberta de árvores'] },
-  historia: { label: 'História', words: [
-    'CABRAL|Navegador que chegou ao Brasil em 1500','CESAR|Júlio ___, ditador romano','NAPOLEAO|Imperador francês derrotado em Waterloo',
-    'CLEOPATRA|Última rainha do Egito antigo','PIRAMIDE|Túmulo monumental dos faraós','FARAO|Soberano do Egito antigo',
-    'REI|Soberano de um reino','RAINHA|Soberana de um reino','IMPERIO|Território governado por um imperador',
-    'REVOLUCAO|Grande transformação política ou social','TIRADENTES|Mártir da Inconfidência Mineira',
-    'ZUMBI|Líder do Quilombo dos Palmares','EINSTEIN|Físico da Teoria da Relatividade','NEWTON|Físico da lei da gravitação',
-    'COLOMBO|Navegador que chegou à América em 1492','GALILEU|Astrônomo que apontou a luneta para o céu',
-    'INCAS|Povo andino que construiu Machu Picchu','MAIAS|Povo mesoamericano de grandes astrônomos',
-    'GREGOS|Povo que criou a democracia e as Olimpíadas','VIKINGS|Navegadores guerreiros do norte da Europa',
-    'CASTELO|Fortaleza medieval de nobres','CAVALEIRO|Guerreiro medieval de armadura','REPUBLICA|Governo sem rei, proclamado em 1889',
-    'ABOLICAO|Fim da escravidão no Brasil, em 1888','MURALHA|Grande ___ da China',
-    'EGITO|Terra dos faraós e das pirâmides','MUMIA|Corpo embalsamado do Egito antigo','ATENAS|Berço da democracia grega','TROIA|Cidade do famoso cavalo de madeira',
-    'ESPARTA|Cidade grega de guerreiros famosos','GUERRA|Conflito armado entre nações','COLONIA|Território dominado por outro país',
-    'ESCRAVO|Pessoa forçada a trabalhar sem liberdade','DITADURA|Regime em que o poder se concentra em um só governante','IMPERADOR|Chefe supremo de um império','CRUZADAS|Expedições medievais cristãs à Terra Santa'] },
-  culinaria: { label: 'Culinária', words: [
-    'PIZZA|Prato italiano redondo com queijo e molho','PAO|Alimento de farinha, água e fermento','AZEITE|Óleo extraído da azeitona',
-    'QUEIJO|Derivado do leite, como mussarela e minas','FEIJAO|Par perfeito do arroz no prato brasileiro','ARROZ|Grão branco servido com feijão',
-    'MACARRAO|Massa italiana comprida','LASANHA|Massa em camadas com molho e queijo','BOLO|Doce assado de aniversário',
-    'TEMPERO|Dá sabor à comida','PIMENTA|Deixa a comida ardida','CHURRASCO|Carne assada na brasa',
-    'SUSHI|Prato japonês de arroz temperado, geralmente com peixe','TAPIOCA|Beiju de goma de mandioca','BRIGADEIRO|Doce de leite condensado e chocolate',
-    'COXINHA|Salgado em formato de gota recheado de frango','PASTEL|Salgado frito vendido em feiras','FAROFA|Farinha torrada que acompanha a feijoada',
-    'MANDIOCA|Raiz também chamada aipim ou macaxeira','DOCE|Contrário de salgado','SOPA|Prato líquido servido quente',
-    'SALADA|Prato de folhas e legumes crus','CAFE|Bebida preta e quente que acorda o Brasil','LEITE|Líquido branco que vem da vaca',
-    'MEL|Alimento doce produzido pelas abelhas','OVO|Alimento que vem da galinha','FORNO|Eletrodoméstico que assa bolos',
-    'FEIJOADA|Prato de feijão preto com carnes','PAMONHA|Iguaria de milho verde cozida na palha','QUINDIM|Doce amarelo de gema e coco'] },
-  musica: { label: 'Música', words: [
-    'GUITARRA|Instrumento elétrico de seis cordas','VIOLAO|Instrumento acústico de seis cordas','BATERIA|Conjunto de tambores e pratos',
-    'PIANO|Instrumento de teclas brancas e pretas','VIOLINO|Instrumento de cordas tocado com arco','FLAUTA|Instrumento de sopro fino e longo',
-    'SAMBA|Ritmo brasileiro do Carnaval','ROCK|Gênero de guitarras e muita energia','JAZZ|Gênero de improviso nascido em Nova Orleans',
-    'GOSPEL|Música cristã de louvor','ALBUM|Conjunto de músicas lançado em disco','RITMO|Marcação regular das batidas',
-    'MELODIA|Sequência de notas que forma a música','ACORDE|Notas tocadas juntas','NOTA|Dó, ré, mi... cada uma é uma ___ musical',
-    'CORO|Grupo que canta em conjunto','PALCO|Onde o artista se apresenta','BANDA|Grupo musical','CANTOR|Quem canta',
-    'TECLADO|Instrumento eletrônico de teclas','SAXOFONE|Sopro dourado, comum no jazz','TAMBOR|Instrumento de percussão de couro',
-    'HARPA|Instrumento de cordas dos anjos','FORRO|Ritmo nordestino de sanfona e zabumba','SANFONA|Instrumento de fole, também chamado acordeão',
-    'PAGODE|Ritmo derivado do samba','CAVAQUINHO|Pequeno instrumento de quatro cordas do samba'] },
-  animal: { label: 'Reino Animal', words: [
-    'LEAO|Grande felino africano, o macho tem juba','LOBO|Canídeo que uiva para a lua','URSO|Mamífero grande que adora mel','TIGRE|Felino listrado da Ásia',
-    'ZEBRA|Parente do cavalo, listrada','GIRAFA|Animal de pescoço bem comprido','ELEFANTE|Maior animal terrestre, de tromba e presas',
-    'MACACO|Primata que adora banana','ONCA|Felino pintado das matas brasileiras','ARARA|Ave colorida que imita sons',
-    'TUCANO|Ave de bico grande e colorido','COBRA|Réptil sem patas','JACARE|Réptil de focinho largo, comum no Pantanal',
-    'GOLFINHO|Mamífero marinho muito inteligente','BALEIA|Maior mamífero do mar','TUBARAO|Peixe predador de barbatana dorsal',
-    'COELHO|Orelhudo que adora cenoura','GATO|Felino doméstico que mia','CAO|Melhor amigo do homem','CAVALO|Animal de montaria que relincha',
-    'GALINHA|Ave que põe ovos','PATO|Ave que faz "quá"','OVELHA|Fornece a lã','ABELHA|Inseto que produz mel',
-    'FORMIGA|Inseto trabalhador que vive em colônias','CORUJA|Ave noturna de olhos grandes','AGUIA|Ave de rapina de visão aguçada',
-    'PINGUIM|Ave que não voa e vive no gelo','CANGURU|Marsupial australiano que pula','TARTARUGA|Réptil de casco duro e vida longa'] },
-  objetos: { label: 'Dia a Dia', words: [
-    'CADEIRA|Móvel para sentar, com encosto','MESA|Móvel onde se fazem as refeições','CAMA|Onde se dorme','SOFA|Assento estofado da sala',
-    'JANELA|Abertura na parede que deixa entrar luz','PORTA|Fecha a entrada de um cômodo','CHAVE|Abre a fechadura','RELOGIO|Mostra as horas',
-    'LAMPADA|Ilumina o ambiente ao acender','GARFO|Talher de pontas','FACA|Talher que corta','COLHER|Talher para a sopa',
-    'PRATO|Onde se serve a comida','COPO|Recipiente para beber água','ESPELHO|Reflete a imagem de quem se olha',
-    'TELEFONE|Aparelho para fazer ligações','GELADEIRA|Conserva os alimentos frios','FOGAO|Eletrodoméstico com bocas para cozinhar',
-    'ESCOVA|Usada para pentear ou limpar os dentes','SABAO|Produto que faz espuma e limpa','TOALHA|Seca o corpo depois do banho',
-    'TAPETE|Peça que cobre o chão','VASSOURA|Varre a sujeira do chão','MOCHILA|Bolsa carregada nas costas',
-    'CARRO|Veículo de quatro rodas','BICICLETA|Veículo de duas rodas com pedais','LIVRO|Reúne páginas para ler',
-    'CANETA|Escreve com tinta','LAPIS|Escreve e pode ser apagado','CADERNO|Folhas pautadas encadernadas','BORRACHA|Apaga o que o lápis escreveu'] }
-};
-
-/* ---- Temas novos ---- */
-THEMES.esportes = { label: 'Esportes', words: [
-  'FUTEBOL|Esporte mais popular do Brasil','GOL|Ponto marcado quando a bola entra na rede','BOLA|Objeto redondo perseguido em muitos jogos',
-  'TENIS|Esporte jogado com raquete e rede','BASQUETE|Esporte em que se arremessa a bola na cesta','VOLEI|Esporte de rede jogado com as mãos, em sets',
-  'NATACAO|Esporte praticado na piscina','ATLETISMO|Conjunto de corridas, saltos e arremessos','JUDO|Arte marcial japonesa de projeções',
-  'BOXE|Luta de punhos com luvas','MARATONA|Corrida de 42 quilômetros','OLIMPIADA|Maior competição esportiva do mundo',
-  'MEDALHA|Prêmio pendurado no pescoço do campeão','TROFEU|Taça entregue ao vencedor','JUIZ|Quem apita e aplica as regras',
-  'TORCIDA|Conjunto de fãs que apoia o time','CAMPEAO|Quem vence o torneio','ESTADIO|Local onde acontecem os jogos de futebol',
-  'PENALTI|Cobrança direta contra o goleiro, da marca de cal','GOLEIRO|Defende a meta do time','SURFE|Esporte de deslizar sobre as ondas',
-  'CICLISMO|Esporte de pedalar em competição','GINASTICA|Esporte de acrobacias e flexibilidade','SKATE|Prancha com rodas usada em manobras',
-  'RAQUETE|Instrumento usado no tênis','CESTA|Alvo do basquete','SAQUE|Lance que inicia o ponto no vôlei ou no tênis',
-  'PLACAR|Painel que mostra o resultado do jogo','CAMPO|Terreno de jogo do futebol','APITO|Instrumento sonoro do árbitro'] };
-THEMES.ciencia = { label: 'Ciência e Natureza', words: [
-  'ATOMO|Unidade básica da matéria','CELULA|Unidade básica dos seres vivos','OXIGENIO|Gás que respiramos',
-  'HIDROGENIO|Elemento mais leve e mais abundante do universo','PLANETA|Corpo que gira em torno de uma estrela','GRAVIDADE|Força que nos prende ao chão',
-  'LUA|Satélite natural da Terra','SOL|Estrela no centro do nosso sistema','ESTRELA|Corpo celeste que brilha com luz própria',
-  'GALAXIA|Imenso conjunto de estrelas, como a Via Láctea','CLOROFILA|Pigmento verde das plantas','DINOSSAURO|Réptil gigante extinto há milhões de anos',
-  'FOSSIL|Resto preservado de um ser vivo antigo','OSSO|Peça rígida do esqueleto','CORACAO|Órgão que bombeia o sangue',
-  'PULMAO|Órgão da respiração','CEREBRO|Órgão que comanda o corpo','VACINA|Prepara o corpo contra doenças',
-  'VIRUS|Microrganismo que só se multiplica dentro de células','BACTERIA|Ser microscópico de uma só célula','ENERGIA|Capacidade de realizar trabalho',
-  'RAIO|Descarga elétrica da tempestade','TROVAO|Barulho que vem depois do relâmpago','ARCOIRIS|Fenômeno colorido no céu depois da chuva',
-  'CLIMA|Condições do tempo ao longo dos anos','TERREMOTO|Tremor do solo','MICROSCOPIO|Aparelho que amplia o que é minúsculo',
-  'TELESCOPIO|Instrumento para ver astros distantes','MAR|Grande extensão de água salgada','RIO|Curso de água que corre em direção ao mar'] };
-THEMES.cultura = { label: 'Cultura Brasileira', words: [
-  'SACI|Moleque travesso de uma perna só e gorro vermelho','CURUPIRA|Protetor das matas, de pés virados para trás','IARA|Sereia do folclore brasileiro',
-  'BOITATA|Cobra de fogo do folclore','LOBISOMEM|Lenda do homem que vira bicho na lua cheia','CUCA|Bruxa com cara de jacaré do folclore',
-  'CARNAVAL|Festa de fantasias e desfiles antes da Quaresma','FREVO|Dança pernambucana de sombrinha colorida','MARACATU|Cortejo pernambucano de tambores e reis',
-  'CAPOEIRA|Luta e dança de origem africana','BERIMBAU|Instrumento de arco e cabaça da capoeira','JUNINA|Festa ___ com quadrilha e fogueira',
-  'QUADRILHA|Dança animada das festas de São João','SERTAO|Região do interior nordestino, de clima seco','CORDEL|Literatura em versos vendida em folhetos',
-  'REPENTE|Cantoria de improviso','CHORO|Gênero instrumental carioca de flauta e cavaquinho','ACARAJE|Bolinho baiano de feijão frito no dendê',
-  'BAIANA|Moça da Bahia, de saia rodada e turbante','AXE|Ritmo baiano nascido em Salvador','ARTESANATO|Trabalho feito à mão',
-  'CANGACEIRO|Bandoleiro nordestino do tempo de Lampião','LAMPIAO|Rei do Cangaço','BUMBA|___ meu boi, folguedo popular',
-  'CACHACA|Destilado de cana-de-açúcar','MANDACARU|Cacto típico do sertão','REDE|Tecido pendurado para descansar balançando'] };
-
-/* ---- Mais palavras nos temas antigos ---- */
-const EXTRA = {
-  cinema: ['PREMIERE|Estreia solene com convidados','SUSPENSE|Gênero que prende a respiração','MUSICAL|Filme em que se canta e se dança',
-    'FICCAO|Gênero de mundos imaginários e futuro','PRODUTOR|Quem cuida do dinheiro e da organização do filme','EDICAO|Montagem final das cenas',
-    'TELONA|Tela grande do cinema','CORTE|Grito do diretor ao fim da cena','CLASSICO|Filme antigo que marcou época',
-    'BILHETERIA|Onde se compra o ingresso','INGRESSO|Papel que dá entrada na sessão','ROTEIRISTA|Autor do texto de um filme'],
-  geografia: ['BOLIVIA|País sem litoral da América do Sul','URUGUAI|País vizinho ao sul do Rio Grande do Sul','PARAGUAI|País vizinho com capital em Assunção',
-    'ITALIA|País em forma de bota','ASIA|Maior continente do planeta','OCEANIA|Continente da Austrália','POLO|Extremo norte ou sul da Terra',
-    'MAPA|Representação do território no papel','BUSSOLA|Instrumento cuja agulha aponta o norte','PANTANAL|Maior planície alagável do mundo',
-    'CERRADO|Bioma de árvores retorcidas do Brasil central','CAATINGA|Bioma exclusivo do Brasil, no sertão nordestino',
-    'AMAZONIA|Maior floresta tropical do mundo','CATARATAS|Quedas de água de Foz do Iguaçu','SAARA|Maior deserto quente do mundo',
-    'BAHIA|Estado brasileiro de Salvador','MINAS|Estado de Belo Horizonte e do pão de queijo'],
-  historia: ['FEUDALISMO|Sistema medieval de senhores e vassalos','ROMANOS|Povo que construiu um vasto império a partir de uma cidade italiana',
-    'ASTECAS|Povo mexicano da cidade de Tenochtitlán','TUTANCAMON|Faraó-menino de máscara de ouro','ESPARTACO|Gladiador que liderou uma revolta de escravos',
-    'DOMPEDRO|Proclamou a Independência às margens do Ipiranga','INQUISICAO|Tribunal religioso medieval que perseguia hereges',
-    'GUTENBERG|Inventor da imprensa de tipos móveis','MUSEU|Lugar que guarda objetos da história','ARQUEOLOGO|Estuda vestígios do passado',
-    'CARAVELA|Navio das Grandes Navegações','ESCRITA|Invenção que marcou o fim da Pré-História'],
-  culinaria: ['CARNE|Alimento de boi, porco ou frango','PEIXE|Alimento tirado de rios e mares','BANANA|Fruta amarela de casca fácil de descascar',
-    'LARANJA|Fruta cítrica que dá suco','MANGA|Fruta tropical alaranjada e fibrosa','ABACAXI|Fruta de coroa espinhosa',
-    'ACAI|Fruta roxa do Norte, servida gelada','CHOCOLATE|Doce feito de cacau','SORVETE|Sobremesa gelada de casquinha',
-    'MILHO|Grão amarelo da pamonha','TOMATE|Fruto vermelho do molho','CEBOLA|Bulbo que faz chorar ao ser cortado',
-    'ALHO|Tempero de dentes e cheiro forte','MANTEIGA|Gordura do leite passada no pão','GELEIA|Doce de fruta para passar no pão',
-    'OMELETE|Prato de ovos batidos','VINAGRE|Tempero ácido para salada'],
-  musica: ['OPERA|Drama musical cantado no palco','ORQUESTRA|Grande grupo de músicos com maestro','MAESTRO|Quem rege a orquestra',
-    'REFRAO|Parte da música que se repete','LETRA|Texto cantado de uma canção','VOZ|Instrumento natural do cantor',
-    'CLARINETE|Instrumento de palheta de som aveludado','TROMPETE|Instrumento de metal de som brilhante','TRIANGULO|Instrumento de metal pequeno, comum no forró',
-    'ZABUMBA|Bumbo do forró','PANDEIRO|Instrumento de aro e platinelas, comum no samba','CUICA|Instrumento do samba que parece chorar',
-    'COMPOSITOR|Quem cria músicas','SERENATA|Música romântica cantada sob a janela','DISCO|Bolacha de vinil que gira na vitrola',
-    'VITROLA|Aparelho antigo que toca discos','FANFARRA|Banda de metais que anima desfiles'],
-  animal: ['RATO|Roedor que o gato persegue','ARANHA|Aracnídeo de oito patas que tece teia','SAPO|Anfíbio que coaxa','PORCO|Animal da lama que faz oinc',
-    'VACA|Dá leite e muge','CABRA|Parente da ovelha que escala rochas','BORBOLETA|Inseto de asas coloridas, antes lagarta',
-    'PREGUICA|Animal lentíssimo que vive pendurado em árvores','CAPIVARA|Maior roedor do mundo','TAMANDUA|Come formigas com língua comprida',
-    'FLAMINGO|Ave rosada que dorme numa perna só','GAVIAO|Ave de rapina de garras afiadas','POLVO|Molusco de oito tentáculos',
-    'CARANGUEJO|Crustáceo que anda de lado','ESQUILO|Pequeno roedor que guarda nozes','RAPOSA|Animal astuto de cauda felpuda',
-    'CAMELO|Animal do deserto de corcovas','HIPOPOTAMO|Grande animal africano que vive na água','PAPAGAIO|Ave verde que repete palavras'],
-  objetos: ['ARMARIO|Móvel de portas para guardar roupas','GAVETA|Caixa deslizante de um móvel','CORTINA|Pano que cobre a janela',
-    'TRAVESSEIRO|Apoio macio para a cabeça','COBERTOR|Cobre a cama no frio','PANELA|Utensílio de cozinhar no fogo','TORNEIRA|Abre e fecha a água',
-    'CHUVEIRO|Dele cai a água no banho','SAPATO|Calçado fechado','CHINELO|Calçado aberto de praia','OCULOS|Ajudam a enxergar',
-    'CARTEIRA|Guarda dinheiro e documentos','VELA|Cera com pavio que ilumina','FOSFORO|Palito que acende com atrito','MARTELO|Ferramenta de bater pregos',
-    'TESOURA|Corta papel e tecido','ESCADA|Degraus para subir','ELEVADOR|Caixa que sobe e desce nos prédios','BALANCA|Mede o peso',
-    'TELEVISAO|Aparelho de imagem e som da sala','VENTILADOR|Refresca o ambiente com hélices','CAMPAINHA|Toca ao lado da porta','LANTERNA|Ilumina com pilhas']
-};
-Object.keys(EXTRA).forEach(k => THEMES[k].words.push(...EXTRA[k]));
+const THEMES = JSON.parse(document.getElementById('temas-data').textContent);
 
 const DIFFS = {
   facil:   { label: 'Fácil',   n: 9,  target: 7,  maxLen: 7,  attempts: 150, sub: 40, par: 240 },
@@ -694,38 +1115,48 @@ const $ = id => document.getElementById(id);
 let puzzle=null, cells=[], sel={r:-1,c:-1}, curDir='across', activeWord=null;
 let solved=new Set(), hints=0, secs=0, score=0, won=false, timerId=null;
 let prof=null;
-let soundOn=true, totalStars=0, wins=0, recog=null, listening=false, synths=null, winT=null;
+let soundOn=true, totalStars=0, wins=0, recog=null, listening=false, winT=null;
 
 const store = {
   get(k,d){ try{ const v=localStorage.getItem('xw2_'+k); return v===null?d:v; }catch(e){ return d; } },
   set(k,v){ try{ localStorage.setItem('xw2_'+k,v); }catch(e){} }
 };
 
-/* ---------- Áudio (instâncias reaproveitadas) ---------- */
+/* ---------- Áudio (Web Audio puro, sem bibliotecas) ---------- */
+let actx=null;
+function setSoundIcon(){ const u=$('sound-icon')&&$('sound-icon').firstElementChild; if(u) u.setAttribute('href',soundOn?'#i-volume-high':'#i-volume-xmark'); }
 function initAudio(){
-  if(synths||typeof Tone==='undefined') return;
   try{
-    Tone.start();
-    synths={
-      pencil:new Tone.NoiseSynth({noise:{type:'white'},envelope:{attack:.001,decay:.05,sustain:0}}).toDestination(),
-      erase:new Tone.NoiseSynth({noise:{type:'pink'},envelope:{attack:.01,decay:.09,sustain:0}}).toDestination(),
-      tick:new Tone.MembraneSynth().toDestination(),
-      chime:new Tone.PolySynth(Tone.Synth).toDestination()
-    };
-    synths.pencil.volume.value=-22; synths.erase.volume.value=-18; synths.tick.volume.value=-24; synths.chime.volume.value=-14;
-  }catch(e){ synths=null; }
+    if(!actx){ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; actx=new AC(); }
+    if(actx.state==='suspended') actx.resume();   // destrava no iPhone/iPad após o primeiro toque
+  }catch(e){ actx=null; }
+}
+function tone(freq,t0,dur,vol,type,slideTo){
+  const o=actx.createOscillator(), g=actx.createGain();
+  o.type=type||'triangle'; o.frequency.setValueAtTime(freq,t0);
+  if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo,t0+dur);
+  g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(vol,t0+0.008); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  o.connect(g); g.connect(actx.destination); o.start(t0); o.stop(t0+dur+0.02);
+}
+function noise(t0,dur,vol,hp){
+  const n=Math.max(1,Math.floor(actx.sampleRate*dur)), buf=actx.createBuffer(1,n,actx.sampleRate), d=buf.getChannelData(0);
+  for(let i=0;i<n;i++) d[i]=(Math.random()*2-1)*(1-i/n);
+  const s=actx.createBufferSource(), f=actx.createBiquadFilter(), g=actx.createGain();
+  s.buffer=buf; f.type='highpass'; f.frequency.value=hp; g.gain.value=vol;
+  s.connect(f); f.connect(g); g.connect(actx.destination); s.start(t0);
 }
 function playSound(t){
-  if(!soundOn||!synths) return;
+  if(!soundOn) return;
+  initAudio(); if(!actx) return;
   try{
-    const now=Tone.now();
-    if(t==='pencil') synths.pencil.triggerAttackRelease('32n',now);
-    else if(t==='erase') synths.erase.triggerAttackRelease('16n',now);
-    else if(t==='tick') synths.tick.triggerAttackRelease('C3','32n',now);
-    else if(t==='word'){ synths.chime.triggerAttackRelease('E5','16n',now); synths.chime.triggerAttackRelease('A5','8n',now+.1); }
-    else if(t==='error') synths.chime.triggerAttackRelease('A2','8n',now);
-    else if(t==='win'){ ['C5','E5','G5','C6','G5','C6','E6','G6'].forEach((n,i)=>synths.chime.triggerAttackRelease(n,i>5?'4n':'8n',now+i*.16)); }
-    else if(t==='rank'){ synths.chime.triggerAttackRelease(['C5','G5','E6'],'4n',now); }
+    const now=actx.currentTime;
+    if(t==='pencil') noise(now,.05,.12,2500);
+    else if(t==='erase') noise(now,.09,.12,900);
+    else if(t==='tick') tone(130,now,.08,.2,'sine',70);
+    else if(t==='word'){ tone(659,now,.18,.12); tone(880,now+.1,.3,.12); }
+    else if(t==='error') tone(110,now,.25,.14,'sawtooth');
+    else if(t==='win'){ [523,659,784,1047,784,1047,1319,1568].forEach((f,i)=>tone(f,now+i*.16,i>5?.5:.25,.12)); }
+    else if(t==='rank'){ [523,784,1319].forEach(f=>tone(f,now,.5,.1)); }
   }catch(e){}
 }
 
@@ -785,7 +1216,7 @@ function todayStr(){ return window.__fakeToday||dstr(new Date()); }
 function dayShift(str,n){ const [y,m,d]=str.split('-').map(Number); return dstr(new Date(y,m-1,d+n)); }
 function curStreak(){ const t=todayStr(); return (prof.lastDaily===t||prof.lastDaily===dayShift(t,-1))?prof.streak:0; }
 function dailyDone(){ return prof.lastDaily===todayStr(); }
-const THEME_KEYS=['cinema','geografia','historia','culinaria','musica','animal','objetos','esportes','ciencia','cultura'];
+const THEME_KEYS=['cinema','geografia','historia','culinaria','musica','animal','objetos','esportes','ciencia','cultura','terror'];
 function dailyConfig(dateStr){
   const h=seedFrom('telas:'+dateStr);
   const wd=new Date(dateStr.replace(/-/g,'/')).getDay();       // 0=dom
@@ -847,6 +1278,29 @@ function resetProfile(){
 }
 
 /* ---------- Comemoração de vitória ---------- */
+/* Confete próprio em canvas (sem biblioteca externa). Aceita as mesmas opções básicas. */
+function confetti(o){
+  try{
+    o=o||{};
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cv=document.createElement('canvas'); cv.setAttribute('aria-hidden','true');
+    cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+    cv.width=innerWidth; cv.height=innerHeight; document.body.appendChild(cv);
+    const ctx=cv.getContext('2d'), cols=o.colors||['#f5c542','#e8a317','#c0392b','#2e7d32'];
+    const ox=(o.origin&&o.origin.x!=null?o.origin.x:.5)*cv.width, oy=(o.origin&&o.origin.y!=null?o.origin.y:.6)*cv.height;
+    const ang=o.angle!=null?o.angle:90, spread=o.spread||60, v0=o.startVelocity||30, g=o.gravity!=null?o.gravity:1, sc=o.scalar||1;
+    const ps=Array.from({length:Math.min(o.particleCount||50,300)},()=>{
+      const a=(ang+(Math.random()-.5)*spread)*Math.PI/180, v=v0*(.5+Math.random()*.5)*.35;
+      return{x:ox,y:oy,vx:Math.cos(a)*v,vy:-Math.sin(a)*v,r:Math.random()*6,w:(5+Math.random()*5)*sc,c:cols[(Math.random()*cols.length)|0]};
+    });
+    const t0=performance.now();
+    (function f(t){
+      ctx.clearRect(0,0,cv.width,cv.height);
+      ps.forEach(p=>{p.vy+=.25*g;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=.15;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.w/4,p.w,p.w/2);ctx.restore();});
+      if(t-t0<2600) requestAnimationFrame(f); else cv.remove();
+    })(t0);
+  }catch(e){}
+}
 function bigCelebration(stars){
   document.querySelectorAll('.xw-grid .cell.letter').forEach(el=>{
     const r=+el.dataset.r||0, c=+el.dataset.c||0;
@@ -1198,12 +1652,12 @@ function buildKeyboard(){
   rows.forEach((row,ri)=>{
     const d=document.createElement('div'); d.className='krow';
     [...row].forEach(ch=>{ const b=document.createElement('button'); b.className='key'; b.textContent=ch; b.addEventListener('click',()=>{initAudio();typeLetter(ch);}); d.appendChild(b); });
-    if(ri===2){ const b=document.createElement('button'); b.className='key wide'; b.innerHTML='<i class="fa-solid fa-delete-left"></i>'; b.setAttribute('aria-label','Apagar'); b.addEventListener('click',()=>{initAudio();backspace();}); d.appendChild(b); }
+    if(ri===2){ const b=document.createElement('button'); b.className='key wide'; b.innerHTML='<svg class="ic" aria-hidden="true"><use href="#i-delete-left"/></svg>'; b.setAttribute('aria-label','Apagar'); b.addEventListener('click',()=>{initAudio();backspace();}); d.appendChild(b); }
     kb.appendChild(d);
   });
   const d=document.createElement('div'); d.className='krow';
-  const a=document.createElement('button'); a.className='key txt'; a.innerHTML='<i class="fa-solid fa-arrows-up-down-left-right"></i>&nbsp;Direção'; a.addEventListener('click',()=>selectCell(sel.r,sel.c,curDir==='across'?'down':'across'));
-  const b=document.createElement('button'); b.className='key txt'; b.innerHTML='Próxima pista&nbsp;<i class="fa-solid fa-forward"></i>'; b.addEventListener('click',()=>goClue(1,false));
+  const a=document.createElement('button'); a.className='key txt'; a.innerHTML='<svg class="ic" aria-hidden="true"><use href="#i-arrows-up-down-left-right"/></svg>&nbsp;Direção'; a.addEventListener('click',()=>selectCell(sel.r,sel.c,curDir==='across'?'down':'across'));
+  const b=document.createElement('button'); b.className='key txt'; b.innerHTML='Próxima pista&nbsp;<svg class="ic" aria-hidden="true"><use href="#i-forward"/></svg>'; b.addEventListener('click',()=>goClue(1,false));
   d.appendChild(a); d.appendChild(b); kb.appendChild(d);
 }
 
@@ -1212,7 +1666,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   loadProf();
   soundOn=store.get('sound','true')==='true';
   refreshHUD();
-  $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark';
+  setSoundIcon();
   $('theme-select').value=store.get('theme','all'); $('diff-select').value=store.get('diff','medio');
   if(!$('theme-select').value) $('theme-select').value='all';
 
@@ -1229,7 +1683,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   $('btn-share').addEventListener('click',doShare);
   $('profile-modal').addEventListener('click',e=>{ if(e.target.id==='profile-modal') closeProfile(); });
   $('win-modal').addEventListener('click',e=>{ if(e.target.id==='win-modal') $('win-modal').classList.remove('open'); });
-  $('btn-sound').addEventListener('click',()=>{ soundOn=!soundOn; store.set('sound',soundOn); $('sound-icon').className=soundOn?'fa-solid fa-volume-high':'fa-solid fa-volume-xmark'; initAudio(); });
+  $('btn-sound').addEventListener('click',()=>{ soundOn=!soundOn; store.set('sound',soundOn); setSoundIcon(); initAudio(); });
   $('btn-kbd').addEventListener('click',()=>$('virtual-keyboard').classList.toggle('show'));
   $('btn-print').addEventListener('click',()=>window.print());
   $('btn-dir').addEventListener('click',()=>{ if(sel.r>=0) selectCell(sel.r,sel.c,curDir==='across'?'down':'across',true); });
